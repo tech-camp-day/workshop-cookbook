@@ -24,7 +24,7 @@
 5. คัดลอก Channel access token ไปแทนที่คำว่า `CHANNEL_ACCESS_TOKEN` ในไฟล์เดียวกันที่บรรทัดที่ 7
 6. ใน Codesandbox, กด Save (`Ctrl` + `S`), โปรแกรมจะเริ่มใหม่โดยอัตโนมัติ
 7. ใน Codesandbox จอครึ่งขวาจะเป็น Browser ที่มีลิงค์อยู่ด้านบน ให้ Copy ลิงค์นั้นไปวางในหน้า "Messaging API" ของบอท ในช่อง "Webhook URL"
-8. กด "Update" แล้วกด "Verify" เพื่อทดสอบการเชื่อมต่อระหว่าง LINE กับบอท
+8. กด "Update" แล้วกด "Verify" เพื่อทดสอบการเชื่อมต่อระหว่าง LINE กับบอท; ถ้าทดสอบผ่านจะขึ้นคำว่า "Success"
 9. กดเปิด "Use webhook" ถ้าหากยังไม่ได้เปิด
 
 
