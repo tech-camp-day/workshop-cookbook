@@ -2,6 +2,7 @@
 
 ใน Workshop นี้ เราจะสร้างบอทที่สามารถทำนายอนาคตของคุณ โดยการสุ่มคำทำนายจากข้อมูลที่เรากำหนดไว้
 
+
 ## Step 0: Copy โปรเจค
 
 1. ไปที่ https://codesandbox.io/p/devbox/fortune-teller-bot-starter-32fy4v
@@ -125,6 +126,7 @@ async function handleLineEvent(event) {
 ```
 
 6. กด Save แล้วลองส่งอะไรก็ได้ใน LINE ดู
+
 
 ## Step 4: ส่งดวงกลับมาแค่ตอนที่เราพิมพ์ไปว่า "ดูดวง"
 
