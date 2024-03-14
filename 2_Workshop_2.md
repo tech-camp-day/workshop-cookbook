@@ -42,7 +42,7 @@
 
 ## Step 2: เพิ่มสมาชิกเข้าไปในระบบเมื่อสมาชิกเพิ่มเพื่อนบอตของเรา
 
-1. ในไฟล์ `member.js` สร้างฟังก์ชัน `handleFollowEvent` ไว้ที่บรรทัดที่ 45 (ก่อนฟังก์ชัน `handleUnknownEvent`) เพื่อเอาไว้จัดการ event ประเภท `follow` ที่เราจะได้รับตอนมีคนเพิ่มบอตของเราเป็นเพื่อน
+1. ในไฟล์ `member.js` สร้างฟังก์ชัน `handleFollowEvent` ไว้ก่อนฟังก์ชัน `handleUnknownEvent` เพื่อเอาไว้จัดการ event ประเภท `follow` ที่เราจะได้รับตอนมีคนเพิ่มบอตของเราเป็นเพื่อน
 
 ```js
 function handleFollowEvent(event) {
@@ -99,7 +99,7 @@ function handleLineEvent(event) {
 
 ## Step 3: ลบสมาชิกออกจากระบบเมื่อสมาชิกบล็อกบอตของเรา
 
-1. ในไฟล์ `member.js` สร้างฟังก์ชัน `handleUnfollowEvent` ไว้ที่บรรทัดที่ 54 (ก่อนฟังก์ชัน `handleUnknownEvent`) เพื่อเอาไว้จัดการ event ประเภท `unfollow` ที่เราจะได้รับตอนมีคนบล็อกเราหรือลบเราออกจากเพื่อน
+1. ในไฟล์ `member.js` สร้างฟังก์ชัน `handleUnfollowEvent` ไว้ก่อนฟังก์ชัน `handleUnknownEvent` เพื่อเอาไว้จัดการ event ประเภท `unfollow` ที่เราจะได้รับตอนมีคนบล็อกเราหรือลบเราออกจากเพื่อน
 
 ```js
 function handleUnfollowEvent(event) {
@@ -153,7 +153,7 @@ function handleLineEvent(event) {
 
 > เมื่อสมาชิกส่งคำว่า `เช็คคะแนน` ให้ส่งข้อความกลับไปหาสมาชิกว่า `คุณมีคะแนนสะสม XXX คะแนน`
 
-1. ในไฟล์ `member.js` สร้างฟังก์ชัน `handleMessageEvent` ไว้ที่บรรทัดที่ 62 (ก่อนฟังก์ชัน `handleUnknownEvent`) เพื่อเอาไว้จัดการ event ประเภท `message` ที่เราจะได้รับตอนมีคนส่งข้อความมาหาเรา
+1. ในไฟล์ `member.js` สร้างฟังก์ชัน `handleMessageEvent` ไว้ก่อนฟังก์ชัน `handleUnknownEvent` เพื่อเอาไว้จัดการ event ประเภท `message` ที่เราจะได้รับตอนมีคนส่งข้อความมาหาเรา
 
 ```js
 function handleMessageEvent(event) {
@@ -239,7 +239,9 @@ function handleLineEvent(event) {
 
 ```js
 const express = require("express");
+const line = require("@line/bot-sdk");
 const { insertMember, deleteMember, getMemberByUid } = require("../persists");
+const { replier, pusher } = require("./util");
 
 const memberConfig = {
   channelSecret: "MEMBER_CHANNEL_SECRET",
@@ -314,6 +316,263 @@ function handleMessageEvent(event) {
 
 function handleUnknownEvent(event) {
   return replyToMember(event, "ขอโทษครับ ฉันไม่เข้าใจคำสั่งของคุณ");
+}
+
+module.exports = router;
+
+```
+
+</details>
+
+## Step 5: ตั้งค่าบอตตัวที่หนึ่ง บอตฝั่งร้านค้า
+
+1. สร้างบอตใหม่ตามขั้นตอนใน[ไฟล์นี้](0_Create_LINE_bot.md)
+2. หลังจากสร้างบอตเสร็จแล้ว ไปที่หน้า "Basic settings" ของบอต
+3. คัดลอก Channel secret ไปแทนที่คำว่า `MERCHANT_CHANNEL_SECRET` ในไฟล์ `merchant.js` ที่บรรทัดที่ 13
+4. ไปที่หน้า "Messaging API" ของบอต
+5. คัดลอก Channel access token ไปแทนที่คำว่า `MERCHANT_CHANNEL_ACCESS_TOKEN` ในไฟล์เดียวกันที่บรรทัดที่ 15
+6. เลื่อนลงไปที่ "LINE Official Account features" ตรง "Auto-reply messages" ให้กด "Edit" แล้วก็กดปิดฟีเจอร์ทุกอย่างยกเว้น "Webhook"
+7. ใน Codesandbox, กด Save (`Ctrl` + `S`), โปรแกรมจะเริ่มใหม่โดยอัตโนมัติ
+8. ใน Codesandbox จอครึ่งขวาจะเป็น Browser ที่มีลิงค์อยู่ด้านบน ให้ Copy ลิงค์นั้นไปวางในหน้า "Messaging API" ของบอต ในช่อง "Webhook URL" แล้วต่อท้ายด้วย `/webhooks/merchant` (ตัวอย่าง `https://www.your-url.com/webhooks/merchant`)
+9. กด "Update" แล้วกด "Verify" เพื่อทดสอบการเชื่อมต่อระหว่าง LINE กับบอต; ถ้าทดสอบผ่านจะขึ้นคำว่า "Success"
+10. กดเปิด "Use webhook" ถ้าหากยังไม่ได้เปิด แล้วลองส่งอะไรก็ได้ใน LINE ดู
+
+## Step 5.5: อธิบายโค้ดเล็กน้อยก่อนเริ่ม (ข้ามได้ถ้าเทพแล้ว)
+
+ใน `merchant.js` เรามีโค้ดอยู่แล้วบ้างเช่น
+
+1. ฟังก์ชัน `handleLineEvent` ที่เราเอาไว้จัดการ event จาก Line
+2. ฟังก์ชัน `handleMessageEvent` ที่เราเอาไว้จัดการ event ประเภท `message` ซึ่งเราได้ทำส่วน `จัดการสมาชิก` และการจัดการถ้าข้อความที่ส่งมาไม่ใช่สิ่งที่เรากำหนดไว้
+
+## Step 5: ทำให้ร้านค้าสามารถเพิ่มคะแนนสะสมให้สมาชิกได้
+
+1. ใน `merchant.js` สร้างฟังก์ชัน `handlePointIncrease` ไว้ก่อนฟังก์ชัน `handleUnknownEvent` เอาไว้จัดการการเพิ่มคะแนนสะสมของสมาชิก
+
+```js
+function handlePointIncrease(event, text) {
+  const [_, memberId, pointToAddText] = text.split(" ");
+
+  const member = getMemberById(memberId);
+
+  if (!member) {
+    return replyToMerchant(event, `ไม่พบสมาชิกหมายเลข ${memberId}`);
+  }
+
+  const pointToAdd = parseInt(pointToAddText);
+
+  if (isNaN(pointToAdd)) {
+    return replyToMerchant(event, "กรุณาใส่จำนวนคะแนนที่ต้องการเพิ่มเป็นตัวเลขเท่านั้น");
+  }
+
+  updatePointForMember(memberId, pointToAdd);
+  pushToMember(event.source.userId, `คุณได้รับคะแนน ${pointToAdd} คะแนนจาก`);
+
+  return replyToMerchant(event, `เพิ่มคะแนน ${pointToAdd} คะแนนให้สมาชิกหมายเลข ${memberId} แล้ว`);
+}
+```
+
+---
+__คำอธิบาย__
+
+เนื่องจากรูปแบบคำสั่งเพิ่มคะแนนให้สมาชิก จะมาในรูปแบบ `เพิ่มคะแนน <รหัสสมาชิก> <จำนวนแต้มที่ต้องการจะเพิ่ม>` เราจะต้องหยิบรหัสสมาชิก และแต้มที่ต้องการจะเพิ่มก่อน โดยการใช้
+
+```js
+const [_, memberId, pointToAddText] = text.split(" ");
+```
+
+ในการที่เราจะเพิ่มแต้ม เราจะต้องเอาแต้มที่มีอยู่ มาบวกกับ แต้มที่มีอยู่แล้ว `แต้มใหม่ = แต้มที่มีอยู่แล้ว + แต้มที่ต้องการจะเพิ่ม`  
+เราก็เลยต้องหาสมาชิกที่เราต้องการจะเพิ่มแต้ม โดยการใช้ฟังก์ชัน `getMemberById` ที่เรามีอยู่แล้ว
+
+```js
+const member = getMemberById(memberId);
+```
+
+ถ้าเราหาสมาชิกคนนั้นไม่เจอ เราก็ไม่ควรจะเพิ่มแต้มได้ เราก็จะส่งข้อความไปหาร้านค้าว่า `ไม่พบสมาชิกหมายเลข XXXX` โดยใช้ฟังก์ชัน `replyToMerchant` ที่เรามีอยู่แล้วเพื่อตอบกลับไปที่ร้านค้า
+
+```js
+if (!member) {
+    return replyToMerchant(event, `ไม่พบสมาชิกหมายเลข ${memberId}`);
+}
+```
+
+ตอนนี้คะแนนที่เราได้มาจากคำสั่งของร้านค้าจะยังเป็นข้อความอยู่ เราก็ต้องแปลงมันให้กลายเป็นตัวเลขก่อน โดยการใช้ `parseInt`   แล้วถ้าสิ่งที่เรารับมาไม่ใช่ตัวเลข เราก็ส่งข้อความตอบกลับไปที่ร้านค้าว่า `กรุณาใส่จำนวนคะแนนที่ต้องการเพิ่มเป็นตัวเลขเท่านั้น`
+
+```js
+const pointToAdd = parseInt(pointToAddText);
+
+if (isNaN(pointToAdd)) {
+    return replyToMerchant(event, "กรุณาใส่จำนวนคะแนนที่ต้องการเพิ่มเป็นตัวเลขเท่านั้น");
+}
+```
+
+พอเรามีทั้งรหัสสมาชิก และคะแนนใหม่ที่ต้องการจะเปลี่ยนแล้ว เราสามารถใช้ฟังก์ชัน `updatePointForMember` ในการอัพเดทคะแนนสะสมให้สมาชิกได้
+
+```js
+updatePointForMember(memberId, member.points + pointToAdd);
+```
+
+หลังจากนั้น เราก็สามารถที่จะส่งข้อความไปแจ้งเตือนสมาชิกได้ โดยการใช้ฟังก์ชัน `pushToMember`
+
+```js
+pushToMember(event.source.userId, `คุณได้รับคะแนน ${pointToAdd} คะแนนจาก`);
+```
+
+แล้วสุดท้าย เราก็ส่งข้อความกลับไปหาร้านค้าว่า `เพิ่มคะแนน XXXX คะแนนให้สมาชิกหมายเลข YYY แล้ว`
+
+```js
+return replyToMerchant(event, `เพิ่มคะแนน ${pointToAdd} คะแนนให้สมาชิกหมายเลข ${memberId} แล้ว`);
+```
+
+---
+
+2. ในฟังก์ชัน `handleLineEvent` ให้เพิ่มเงื่อนไขที่เอาไว้เช็คว่ามีข้อความ เพิ่มคะแนน ส่งมามั้ย แล้วก็เรียกใช้ฟังก์ชัน `handlePointIncrease` ที่เราสร้างไปเมื่อสักครู่
+
+```js
+if (text.includes("เพิ่มคะแนน")) {
+    return handlePointIncrease(event, text);
+}
+```
+
+ใน `handleLineEvent` ก็จะหน้าตาประมาณ
+
+```js
+function handleMessageEvent(event) {
+  const text = event.message.text;
+
+  if (text === "จัดการสมาชิก") {
+    const members = getAllMembers();
+    const memberInfoMessages = members.map((member) => `สมาชิกหมายเลข ${member.id} มีคะแนน ${member.points} คะแนน`);
+
+    return replyToMerchant(event, ...memberInfoMessages);
+  }
+
+  if (text.includes("เพิ่มคะแนน")) {
+    return handlePointIncrease(event, text);
+  }
+
+  return replyToMerchant(
+    event,
+    "กรุณาพิมพ์ 'จัดการสมาชิก' เพื่อดูข้อมูลสมาชิก เพื่อเพิ่มคะแนนให้สมาชิก",
+    "หรือพิมพ์ 'เพิ่มคะแนน <รหัสสมาชิก> <คะแนน>' เพื่อเพิ่มคะแนนของสมาชิก",
+  );
+}
+```
+
+## Step 5.5: Merchant Cheat code
+
+สำหรับคนที่ตามไม่ทัน ก็อปโค้ดนี้ไปแทนที่โค้ดในไฟล์ `merchant.js`, เปลี่ยน `MERCHANT_CHANNEL_SECRET` และ `MERCHANT_CHANNEL_ACCESS_TOKEN` บรรทัดที่ 13-15 แล้วกด Save แล้วลองเล่นดู
+
+<details>
+<summary>โค้ดเต็ม <code>merchant.js</code></summary>
+
+```js
+const express = require("express");
+const line = require("@line/bot-sdk");
+const {
+  getMemberById,
+  getAllMembers,
+  updatePointForMember,
+  getMemberByUid,
+} = require("../persists");
+const { replier } = require("./util");
+const {
+  pushToMember,
+} = require("./member");
+
+const merchantConfig = {
+  channelSecret: "MERCHANT_CHANNEL_SECRET",
+  channelAccessToken:
+    "MERCHANT_ACCESS_TOKEN",
+};
+
+const merchantWebhookMiddleware = line.middleware(merchantConfig);
+const merchantClient = new line.messagingApi.MessagingApiClient(merchantConfig);
+const replyToMerchant = replier(merchantClient);
+
+const router = express.Router();
+
+router.post("/", merchantWebhookMiddleware, handleRequest);
+
+/**
+ * จัดการ request ที่เข้ามาที่ /webhooks/member
+ * @param {Object} request - คำขอที่เข้ามา
+ * @param {Object} response - การตอบกลับของคำขอ
+ * @returns {Promise} - ส่งผลจากการจัดการ event กลับไป
+ */
+async function handleRequest(request, response) {
+  // หยิบ events ออกมาจาก request body
+  const { events } = request.body;
+
+  // วนเรียกฟังก์ชัน handleLineEvent ที่ event แต่ละตัว
+  const eventHandledPromises = events.map(handleLineEvent);
+
+  // รอให้ event ทั้งหมดถูกจัดการ
+  const result = await Promise.all(eventHandledPromises);
+
+  // ส่งผลจากการจัดการ event กลับไป
+  return response.send(result);
+}
+
+function handleLineEvent(event) {
+  switch (event.type) {
+    case "message":
+      return handleMessageEvent(event);
+    default:
+      return handleUnknownEvent(event);
+  }
+}
+
+function handleMessageEvent(event) {
+  const text = event.message.text;
+
+  if (text === "จัดการสมาชิก") {
+    const members = getAllMembers();
+    const memberInfoMessages = members.map((member) => `สมาชิกหมายเลข ${member.id} มีคะแนน ${member.points} คะแนน`);
+
+    return replyToMerchant(event, ...memberInfoMessages);
+  }
+
+  if (text.includes("เพิ่มคะแนน")) {
+    return handlePointIncrease(event, text);
+  }
+
+  return replyToMerchant(
+    event,
+    "กรุณาพิมพ์ 'จัดการสมาชิก' เพื่อดูข้อมูลสมาชิก เพื่อเพิ่มคะแนนให้สมาชิก",
+    "หรือพิมพ์ 'เพิ่มคะแนน <รหัสสมาชิก> <คะแนน>' เพื่อเพิ่มคะแนนของสมาชิก",
+  );
+}
+
+function handlePointIncrease(event, text) {
+  const [_, memberId, pointToAddText] = text.split(" ");
+
+  const member = getMemberById(memberId);
+
+  if (!member) {
+    return replyToMerchant(event, `ไม่พบสมาชิกหมายเลข ${memberId}`);
+  }
+
+  const pointToAdd = parseInt(pointToAddText);
+
+  if (isNaN(pointToAdd)) {
+    return replyToMerchant(event, "กรุณาใส่จำนวนคะแนนที่ต้องการเพิ่มเป็นตัวเลขเท่านั้น");
+  }
+
+  updatePointForMember(memberId, member.points + pointToAdd);
+  pushToMember(event.source.userId, `คุณได้รับคะแนน ${pointToAdd} คะแนนจาก`);
+
+  return replyToMerchant(event, `เพิ่มคะแนน ${pointToAdd} คะแนนให้สมาชิกหมายเลข ${memberId} แล้ว`);
+}
+
+/**
+ * จัดการ event ที่ไม่รู้จัก
+ * @param {Object} event - event ที่จะถูกจัดการ
+ */
+function handleUnknownEvent(event) {
+  return replyToMerchant(event, {
+    type: "text",
+    text: "ขอโทษครับ ฉันไม่เข้าใจคำสั่งของคุณ",
+  });
 }
 
 module.exports = router;
