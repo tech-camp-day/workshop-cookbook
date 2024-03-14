@@ -61,7 +61,7 @@ function reply(event, ...messages) {
 3. และเพิ่มโค้ดต่อไปนี้ที่ล่างสุดของไฟล์ `index.js` ต่อจากโค้ดที่เพิ่งเพิ่มไป
 
 ```javascript
-async function handleLineEvent(event) {
+function handleLineEvent(event) {
   return reply(event, "สวัสดีจากดูดวง Bot");
 }
 ```
@@ -119,7 +119,7 @@ function getAllFortuneMessages() {
 5. เปลี่ยนฟังก์ชั่น `handleLineEvent` ให้ตอบข้อความด้วยดวงที่เราพึ่งสุ่มมา
 
 ```js
-async function handleLineEvent(event) {
+function handleLineEvent(event) {
   return reply(event, ...getAllFortuneMessages());
 }
 ```
@@ -134,7 +134,7 @@ async function handleLineEvent(event) {
 1. เปลี่ยนฟังก์ชั่น `handleLineEvent` ให้เช็คก่อนว่าข้อความที่ถูกส่งมาคือคำว่า "ดูดวง" รึเปล่า
 
 ```js
-async function handleLineEvent(event) {
+function handleLineEvent(event) {
   // หยิบเอา text จาก message ใน event ออกมา
   const { text } = event.message;
 
@@ -149,7 +149,7 @@ async function handleLineEvent(event) {
 3. เปลี่ยนฟังก์ชั่น `handleLineEvent` อีกครั้งให้ส่งอย่างอื่นกลับไปถ้าข้อความที่ถูกส่งมาไม่ใช่คำว่า "ดูดวง"
 
 ```js
-async function handleLineEvent(event) {
+function handleLineEvent(event) {
   // หยิบเอา text จาก message ใน event ออกมา
   const { text } = event.message;
 
@@ -205,7 +205,7 @@ function reply(event, ...messages) {
   });
 }
 
-async function handleLineEvent(event) {
+function handleLineEvent(event) {
   const { text } = event.message;
 
   if (text === "ดูดวง") {
