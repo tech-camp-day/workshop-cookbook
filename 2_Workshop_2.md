@@ -241,6 +241,7 @@ function handleLineEvent(event) {
 const express = require("express");
 const line = require("@line/bot-sdk");
 const { insertMember, deleteMember, getMemberByUid } = require("../persists");
+const { replier, pusher } = require("./util");
 
 const memberConfig = {
   channelSecret: "MEMBER_CHANNEL_SECRET",
@@ -473,6 +474,7 @@ const {
   updatePointForMember,
   getMemberByUid,
 } = require("../persists");
+const { replier } = require("./util");
 const {
   pushToMember,
 } = require("./member");
