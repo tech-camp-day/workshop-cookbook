@@ -31,9 +31,9 @@
 
 1. สร้างบอตใหม่ตามขั้นตอนใน[ไฟล์นี้](0_Create_LINE_bot.md)
 2. หลังจากสร้างบอตเสร็จแล้ว ไปที่หน้า "Basic settings" ของบอต
-3. คัดลอก Channel secret ไปแทนที่คำว่า `MEMBER_CHANNEL_SECRET` ในไฟล์ `member.js` ที่บรรทัดที่ 5
+3. คัดลอก Channel secret ไปแทนที่คำว่า `MEMBER_CHANNEL_SECRET` ในไฟล์ `member.js` ที่บรรทัดที่ 7
 4. ไปที่หน้า "Messaging API" ของบอต
-5. คัดลอก Channel access token ไปแทนที่คำว่า `MEMBER_CHANNEL_ACCESS_TOKEN` ในไฟล์เดียวกันที่บรรทัดที่ 6
+5. คัดลอก Channel access token ไปแทนที่คำว่า `MEMBER_CHANNEL_ACCESS_TOKEN` ในไฟล์เดียวกันที่บรรทัดที่ 8
 6. เลื่อนลงไปที่ "LINE Official Account features" ตรง "Auto-reply messages" ให้กด "Edit" แล้วก็กดปิดฟีเจอร์ทุกอย่างยกเว้น "Webhook"
 7. ใน Codesandbox, กด Save (`Ctrl` + `S`), โปรแกรมจะเริ่มใหม่โดยอัตโนมัติ
 8. ใน Codesandbox จอครึ่งขวาจะเป็น Browser ที่มีลิงค์อยู่ด้านบน ให้ Copy ลิงค์นั้นไปวางในหน้า "Messaging API" ของบอต ในช่อง "Webhook URL" แล้วต่อท้ายด้วย `/webhooks/member` (ตัวอย่าง `https://www.your-url.com/webhooks/member`)
@@ -318,7 +318,10 @@ function handleUnknownEvent(event) {
   return replyToMember(event, "ขอโทษครับ ฉันไม่เข้าใจคำสั่งของคุณ");
 }
 
-module.exports = router;
+module.exports = {
+  router,
+  pushToMember,
+};
 
 ```
 
@@ -365,7 +368,7 @@ function handlePointIncrease(event, text) {
   }
 
   updatePointForMember(memberId, pointToAdd);
-  pushToMember(event.source.userId, `คุณได้รับคะแนน ${pointToAdd} คะแนนจาก`);
+  pushToMember(event.source.userId, `คุณได้รับคะแนน ${pointToAdd} คะแนน`);
 
   return replyToMerchant(event, `เพิ่มคะแนน ${pointToAdd} คะแนนให้สมาชิกหมายเลข ${memberId} แล้ว`);
 }
@@ -414,7 +417,7 @@ updatePointForMember(memberId, member.points + pointToAdd);
 หลังจากนั้น เราก็สามารถที่จะส่งข้อความไปแจ้งเตือนสมาชิกได้ โดยการใช้ฟังก์ชัน `pushToMember`
 
 ```js
-pushToMember(event.source.userId, `คุณได้รับคะแนน ${pointToAdd} คะแนนจาก`);
+pushToMember(event.source.userId, `คุณได้รับคะแนน ${pointToAdd} คะแนน`);
 ```
 
 แล้วสุดท้าย เราก็ส่งข้อความกลับไปหาร้านค้าว่า `เพิ่มคะแนน XXXX คะแนนให้สมาชิกหมายเลข YYY แล้ว`
@@ -559,7 +562,7 @@ function handlePointIncrease(event, text) {
   }
 
   updatePointForMember(memberId, member.points + pointToAdd);
-  pushToMember(event.source.userId, `คุณได้รับคะแนน ${pointToAdd} คะแนนจาก`);
+  pushToMember(event.source.userId, `คุณได้รับคะแนน ${pointToAdd} คะแนน`);
 
   return replyToMerchant(event, `เพิ่มคะแนน ${pointToAdd} คะแนนให้สมาชิกหมายเลข ${memberId} แล้ว`);
 }
@@ -569,10 +572,7 @@ function handlePointIncrease(event, text) {
  * @param {Object} event - event ที่จะถูกจัดการ
  */
 function handleUnknownEvent(event) {
-  return replyToMerchant(event, {
-    type: "text",
-    text: "ขอโทษครับ ฉันไม่เข้าใจคำสั่งของคุณ",
-  });
+  return replyToMerchant(event, "ขอโทษครับ ฉันไม่เข้าใจคำสั่งของคุณ");
 }
 
 module.exports = router;
