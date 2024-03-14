@@ -42,7 +42,7 @@
 
 ## Step 2: เพิ่มสมาชิกเข้าไปในระบบเมื่อสมาชิกเพิ่มเพื่อนบอตของเรา
 
-1. ในไฟล์ `member.js` สร้างฟังก์ชัน `handleFollowEvent` ไว้ที่บรรทัดที่ 46 เพื่อเอาไว้จัดการ event ประเภท `follow` ที่เราจะได้รับตอนมีคนเพิ่มบอตของเราเป็นเพื่อน
+1. ในไฟล์ `member.js` สร้างฟังก์ชัน `handleFollowEvent` ไว้ที่บรรทัดที่ 45 (ก่อนฟังก์ชัน `handleUnknownEvent`) เพื่อเอาไว้จัดการ event ประเภท `follow` ที่เราจะได้รับตอนมีคนเพิ่มบอตของเราเป็นเพื่อน
 
 ```js
 function handleFollowEvent(event) {
@@ -97,4 +97,134 @@ function handleLineEvent(event) {
 }
 ```
 
-3. ลองเพิ่มบอตเป็นเพื่อนดู
+## Step 3: ลบสมาชิกออกจากระบบเมื่อสมาชิกบล็อกบอตของเรา
+
+1. ในไฟล์ `member.js` สร้างฟังก์ชัน `handleUnfollowEvent` ไว้ที่บรรทัดที่ 54 (ก่อนฟังก์ชัน `handleUnknownEvent`) เพื่อเอาไว้จัดการ event ประเภท `unfollow` ที่เราจะได้รับตอนมีคนบล็อกเราหรือลบเราออกจากเพื่อน
+
+```js
+function handleUnfollowEvent(event) {
+  const userId = event.source.userId;
+
+  deleteMember(userId);
+}
+```
+
+---
+__คำอธิบาย__
+
+
+ในการที่จะลบสมาชิกออกจากระบบ เราต้องใช้ `userId` ที่เราสามารถเอามาได้จาก `event.source.userId`
+
+```js
+const userId = event.source.userId;
+```
+
+พอได้ `userId` มาแล้ว เราก็ลบสมาชิกออกจากระบบด้วยการใช้ฟังก์ชัน `deleteMember` ที่เรามีอยู่แล้วได้เลย
+
+```js
+deleteMember(userId);
+```
+
+---
+
+2. ในฟังก์ชัน `handleLineEvent` เราจะเรียกใช้ฟังก์ชัน `handleUnfollowEvent` ที่เราพึ่งสร้างไปเมื่อกี้ เมื่อ `event.type` คือ `unfollow` โดยเราสามารถเพิ่มโค้ดส่วนนี้เข้าไปใน `switch` statement ได้เลย
+
+```js
+case "unfollow":
+    return handleUnfollowEvent(event);
+```
+
+หน้าตาฟังก์ชัน `handleLineEvent` ตอนนี้ก็จะเป็นแบบนี้
+
+```js
+function handleLineEvent(event) {
+  switch (event.type) {
+    case "follow":
+      return handleFollowEvent(event);
+    case "unfollow":
+      return handleUnfollowEvent(event);
+    default:
+      return handleUnknownEvent(event);
+  }
+}
+```
+
+## Checkpoint 1
+
+สำหรับคนที่ตามไม่ทัน ก็อปโค้ดนี้ไปแทนที่โค้ดในไฟล์ `member.js`, เปลี่ยน `MEMBER_CHANNEL_SECRET` และ `MEMBER_CHANNEL_ACCESS_TOKEN` บรรทัดที่ 5-6 แล้วกด Save แล้วลองเพิ่มเพื่อน บล็อก และปลดบล็อคดู
+
+<details>
+<summary>โค้ด Checkpoint 1 <code>member.js</code></summary>
+
+```js
+const express = require("express");
+const { insertMember, deleteMember, getMemberByUid } = require("../persists");
+
+const memberConfig = {
+  channelSecret: "MEMBER_CHANNEL_SECRET",
+  channelAccessToken:
+    "MEMBER_CHANNEL_ACCESS_TOKEN",
+};
+
+const memberWebhookMiddleware = line.middleware(memberConfig);
+const memberClient = new line.messagingApi.MessagingApiClient(memberConfig);
+const replyToMember = replier(memberClient);
+const pushToMember = pusher(memberClient);
+
+const router = express.Router();
+
+router.post("/", memberWebhookMiddleware, handlePostRequest);
+
+/**
+ * จัดการ request ที่เข้ามาที่ /webhooks/member
+ * @param {Object} request - คำขอที่เข้ามา
+ * @param {Object} response - การตอบกลับของคำขอ
+ * @returns {Promise} - ส่งผลจากการจัดการ event กลับไป
+ */
+async function handlePostRequest(request, response) {
+  // หยิบ events ออกมาจาก request body
+  const { events } = request.body;
+
+  // วนเรียกฟังก์ชัน handleLineEvent ที่ event แต่ละตัว
+  const eventHandledPromises = events.map(handleLineEvent);
+
+  // รอให้ event ทั้งหมดถูกจัดการ
+  const result = await Promise.all(eventHandledPromises);
+
+  // ส่งผลจากการจัดการ event กลับไป
+  return response.send(result);
+}
+
+function handleLineEvent(event) {
+  switch (event.type) {
+    case "follow":
+      return handleFollowEvent(event);
+    case "unfollow":
+      return handleUnfollowEvent(event);
+    default:
+      return handleUnknownEvent(event);
+  }
+}
+
+function handleFollowEvent(event) {
+  const userId = event.source.userId;
+
+  insertMember(userId);
+  pushToMember(userId, "ยินดีต้อนรับเข้าสู่ สมาชิก Bot ครับ กรุณาพิมพ์ 'เช็คคะแนน' เพื่อเช็คคะแนนของคุณ");
+}
+
+function handleUnfollowEvent(event) {
+  const userId = event.source.userId;
+
+  deleteMember(userId);
+}
+
+function handleUnknownEvent(event) {
+  return replyToMember(event, "ขอโทษครับ ฉันไม่เข้าใจคำสั่งของคุณ");
+}
+
+module.exports = router;
+```
+
+</details>
+
