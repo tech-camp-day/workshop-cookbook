@@ -149,12 +149,91 @@ function handleLineEvent(event) {
 }
 ```
 
-## Checkpoint 1
+## Step 4: ทำให้สมาชิกสามารถเช็คคะแนนสะสมได้
+
+> เมื่อสมาชิกส่งคำว่า `เช็คคะแนน` ให้ส่งข้อความกลับไปหาสมาชิกว่า `คุณมีคะแนนสะสม XXX คะแนน`
+
+1. ในไฟล์ `member.js` สร้างฟังก์ชัน `handleMessageEvent` ไว้ที่บรรทัดที่ 62 (ก่อนฟังก์ชัน `handleUnknownEvent`) เพื่อเอาไว้จัดการ event ประเภท `message` ที่เราจะได้รับตอนมีคนส่งข้อความมาหาเรา
+
+```js
+function handleMessageEvent(event) {
+  const text = event.message.text;
+
+  if (text === "เช็คคะแนน") {
+    const member = getMemberByUid(event.source.userId);
+    return replyToMember(event, `คุณมีคะแนนสะสม ${member.points} คะแนน`);
+  }
+}
+```
+
+---
+__คำอธิบาย__
+
+ในการที่เราจะเช็คว่าสมาชิกส่งคำว่า `เช็คคะแนน` มารึเปล่า เราจะใช้ข้อความ `text` ที่เราเอามาได้จาก `event.message.text`
+
+```js
+const text = event.message.text;
+```
+
+พอได้ข้อความมาแล้ว เราก็เอามาเช็คว่ามันตรงกับคำว่า `เช็คคะแนน` มั้ย 
+
+```js
+if (text === "เช็คคะแนน") {
+    // some other code
+}
+
+```
+
+ในการที่เราจะหาสมาชิก เราก็ต้องใช้ `userId` ที่เราหาได้จาก `event.source.userId` เหมือนเดิม
+
+```js
+const userId = event.source.userId;
+```
+
+พอได้ `userId` แล้ว เราก็หาสมาชิกได้ด้วยการเรียกใช้ฟังก์ชัน `getMemberByUid` ที่เรามีอยู่แล้ว
+
+```js
+const member = getMemberByUid(userId);
+```
+
+เสร็จแล้ว เราก็ส่งข้อมูลเกี่ยวกับคะแนนสะสมกลับไปให้สมาชิกได้เลย โดยการใช้ฟังก์ชัน `replyToMember`
+
+```js
+return replyToMember(event, `คุณมีคะแนนสะสม ${member.points} คะแนน`);
+```
+
+---
+
+2. ในฟังก์ชัน `handleLineEvent` เราจะเรียกใช้ฟังก์ชัน `handleMessageEvent` ที่เราพึ่งสร้างไปเมื่อกี้ เมื่อ `event.type` คือ `message` โดยเราสามารถเพิ่มโค้ดส่วนนี้เข้าไปใน `switch` statement ได้เลย
+
+```js
+case "message":
+    return handleMessageEvent(event);
+```
+
+หน้าตาฟังก์ชัน `handleLineEvent` ตอนนี้ก็จะเป็นแบบนี้
+
+```js
+function handleLineEvent(event) {
+  switch (event.type) {
+    case "follow":
+      return handleFollowEvent(event);
+    case "unfollow":
+      return handleUnfollowEvent(event);
+    case "message":
+      return handleMessageEvent(event);
+    default:
+      return handleUnknownEvent(event);
+  }
+}
+```
+
+## Step 99: Cheat code
 
 สำหรับคนที่ตามไม่ทัน ก็อปโค้ดนี้ไปแทนที่โค้ดในไฟล์ `member.js`, เปลี่ยน `MEMBER_CHANNEL_SECRET` และ `MEMBER_CHANNEL_ACCESS_TOKEN` บรรทัดที่ 5-6 แล้วกด Save แล้วลองเพิ่มเพื่อน บล็อก และปลดบล็อคดู
 
 <details>
-<summary>โค้ด Checkpoint 1 <code>member.js</code></summary>
+<summary>โค้ดเต็ม <code>member.js</code></summary>
 
 ```js
 const express = require("express");
@@ -201,6 +280,8 @@ function handleLineEvent(event) {
       return handleFollowEvent(event);
     case "unfollow":
       return handleUnfollowEvent(event);
+    case "message":
+      return handleMessageEvent(event);
     default:
       return handleUnknownEvent(event);
   }
@@ -219,12 +300,22 @@ function handleUnfollowEvent(event) {
   deleteMember(userId);
 }
 
+function handleMessageEvent(event) {
+  const text = event.message.text;
+
+  if (text === "เช็คคะแนน") {
+    const userId = event.source.userId;
+    const member = getMemberByUid(userId);
+    return replyToMember(event, `คุณมีคะแนนสะสม ${member.points} คะแนน`);
+  }
+}
+
 function handleUnknownEvent(event) {
   return replyToMember(event, "ขอโทษครับ ฉันไม่เข้าใจคำสั่งของคุณ");
 }
 
 module.exports = router;
+
 ```
 
 </details>
-

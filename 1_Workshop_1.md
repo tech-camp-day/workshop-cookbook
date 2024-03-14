@@ -165,8 +165,8 @@ async function handleLineEvent(event) {
 
 
 
-## Step 99: ถ้าไม่ทัน
-
+## Step 99: Cheat code
+สำหรับคนที่ตามไม่ทัน ก็อปโค้ดนี้ไปแทนที่โค้ดในไฟล์ `index.js`, เปลี่ยน `CHANNEL_SECRET` และ `CHANNEL_ACCESS_TOKEN` บรรทัดที่ 6-7 แล้วกด Save แล้วลองส่งอะไรก็ได้ใน LINE ดู
 <details>
 <summary>โค้ดเต็ม index.js</summary>
 
@@ -241,7 +241,5 @@ function getAllFortuneMessages() {
   return fortuneMessages;
 }
 ```
-
-ก็อปโค้ดนี้ไปแทนที่โค้ดในไฟล์ `index.js`, เปลี่ยน `CHANNEL_SECRET` และ `CHANNEL_ACCESS_TOKEN` บรรทัดที่ 6-7 แล้วกด Save แล้วลองส่งอะไรก็ได้ใน LINE ดู
 
 </details>
