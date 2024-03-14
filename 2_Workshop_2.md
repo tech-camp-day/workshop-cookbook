@@ -228,7 +228,9 @@ function handleLineEvent(event) {
 }
 ```
 
-## Step 99: Cheat code
+3. ลองส่งข้อความหาน้องบอตดู
+
+## Step 4.5: Member Cheat code
 
 สำหรับคนที่ตามไม่ทัน ก็อปโค้ดนี้ไปแทนที่โค้ดในไฟล์ `member.js`, เปลี่ยน `MEMBER_CHANNEL_SECRET` และ `MEMBER_CHANNEL_ACCESS_TOKEN` บรรทัดที่ 5-6 แล้วกด Save แล้วลองเพิ่มเพื่อน บล็อก และปลดบล็อคดู
 
