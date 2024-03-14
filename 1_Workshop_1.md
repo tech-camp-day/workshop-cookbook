@@ -2,7 +2,6 @@
 
 ใน Workshop นี้ เราจะสร้างบอทที่สามารถทำนายอนาคตของคุณ โดยการสุ่มคำทำนายจากข้อมูลที่เรากำหนดไว้
 
-
 ## Step 0: Copy โปรเจค
 
 1. ไปที่ https://codesandbox.io/p/devbox/fortune-teller-bot-starter-32fy4v
@@ -23,11 +22,8 @@
 3. คัดลอก Channel secret ไปแทนที่คำว่า `CHANNEL_SECRET` ในไฟล์ `index.js` ที่บรรทัดที่ 6
 4. ไปที่หน้า "Messaging API" ของบอท
 5. คัดลอก Channel access token ไปแทนที่คำว่า `CHANNEL_ACCESS_TOKEN` ในไฟล์เดียวกันที่บรรทัดที่ 7
-6. ใน Codesandbox, กด Save (`Ctrl` + `S`), โปรแกรมจะเริ่มใหม่โดยอัตโนมัติ
-7. ใน Codesandbox จอครึ่งขวาจะเป็น Browser ที่มีลิงค์อยู่ด้านบน ให้ Copy ลิงค์นั้นไปวางในหน้า "Messaging API" ของบอท ในช่อง "Webhook URL"
-8. กด "Update" แล้วกด "Verify" เพื่อทดสอบการเชื่อมต่อระหว่าง LINE กับบอท; ถ้าทดสอบผ่านจะขึ้นคำว่า "Success"
-9. กดเปิด "Use webhook" ถ้าหากยังไม่ได้เปิด
-
+ุุ6. เลื่อนลงไปที่ `LINE Official Account features` ตรง `Auto-reply messages` ให้กด `Edit` แล้วก็กดปิดฟีเจอร์ทุกอย่างยกเว้น `Webhook`
+7. ใน Codesandbox, กด Save (`Ctrl` + `S`), โปรแกรมจะเริ่มใหม่โดยอัตโนมัติ
 
 ## Step 1.5: อธิบายโค้ดเล็กน้อยก่อนเริ่ม (ข้ามได้ถ้าเทพแล้ว)
 
@@ -70,7 +66,10 @@ async function handleLineEvent(event) {
 }
 ```
 
-4. กด Save แล้วลองส่งอะไรก็ได้ใน LINE ดู
+4. กด Save 
+5. ใน Codesandbox จอครึ่งขวาจะเป็น Browser ที่มีลิงค์อยู่ด้านบน ให้ Copy ลิงค์นั้นไปวางในหน้า "Messaging API" ของบอท ในช่อง "Webhook URL"
+6. กด "Update" แล้วกด "Verify" เพื่อทดสอบการเชื่อมต่อระหว่าง LINE กับบอท; ถ้าทดสอบผ่านจะขึ้นคำว่า "Success"
+7. กดเปิด "Use webhook" ถ้าหากยังไม่ได้เปิด แล้วลองส่งอะไรก็ได้ใน LINE ดู
 
 
 ## Step 3: สุ่มคำทำนาย
