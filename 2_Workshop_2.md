@@ -34,12 +34,11 @@
 3. คัดลอก Channel secret ไปแทนที่คำว่า `MEMBER_CHANNEL_SECRET` ในไฟล์ `member.js` ที่บรรทัดที่ 7
 4. ไปที่หน้า "Messaging API" ของบอต
 5. คัดลอก Channel access token ไปแทนที่คำว่า `MEMBER_CHANNEL_ACCESS_TOKEN` ในไฟล์เดียวกันที่บรรทัดที่ 8
-6. เลื่อนลงไปที่ "LINE Official Account features" ตรง "Auto-reply messages" ให้กด "Edit" แล้วก็กดปิดฟีเจอร์ทุกอย่างยกเว้น "Webhook"
-7. ใน Codesandbox, กด Save (`Ctrl` + `S`), โปรแกรมจะเริ่มใหม่โดยอัตโนมัติ
-8. ใน Codesandbox จอครึ่งขวาจะเป็น Browser ที่มีลิงค์อยู่ด้านบน ให้ Copy ลิงค์นั้นไปวางในหน้า "Messaging API" ของบอต ในช่อง "Webhook URL" แล้วต่อท้ายด้วย `/webhooks/member` 
+6. ใน Codesandbox, กด Save (`Ctrl` + `S`), โปรแกรมจะเริ่มใหม่โดยอัตโนมัติ
+7. ใน Codesandbox จอครึ่งขวาจะเป็น Browser ที่มีลิงค์อยู่ด้านบน ให้ Copy ลิงค์นั้นไปวางในหน้า "Messaging API" ของบอต ในช่อง "Webhook URL" แล้วต่อท้ายด้วย `/webhooks/member` 
 > ตัวอย่าง `https://www.your-url.com/webhooks/member`
-9. กด "Update" แล้วกด "Verify" เพื่อทดสอบการเชื่อมต่อระหว่าง LINE กับบอต; ถ้าทดสอบผ่านจะขึ้นคำว่า "Success"
-10. กดเปิด "Use webhook" ถ้าหากยังไม่ได้เปิด
+8. กด "Update" แล้วกด "Verify" เพื่อทดสอบการเชื่อมต่อระหว่าง LINE กับบอต; ถ้าทดสอบผ่านจะขึ้นคำว่า "Success"
+9. กดเปิด "Use webhook" ถ้าหากยังไม่ได้เปิด
 
 ## Step 2: เพิ่มสมาชิกเข้าไปในระบบเมื่อสมาชิกเพิ่มเพื่อนบอตของเรา
 
