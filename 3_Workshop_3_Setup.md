@@ -69,3 +69,5 @@
     - `LINE_CHANNEL_ACCESS_TOKEN` - channel access token จาก LINE Developers Console
     - `LINE_CHANNEL_SECRET` - channel secret จาก LINE Developers Console
   - กด Restart microVM
+8. ใน Codesandbox จอครึ่งขวาจะเป็น Browser ที่มีลิงค์อยู่ด้านบน ให้เติม `/webhook/line` ต่อท้ายแล้วนำทั้งหมดนั้นไปวางในหน้า "Messaging API" ของบอต ในช่อง "Webhook URL" _(ตัวอย่าง: สมมุติ URL ในหน้า Codesandbox คือ `https://blablabla.codesandbox.io`; แก้ไขให้เป็น `https://blablabla.codesandbox.io/webhook/line` แล้วนำไปใส่ใน Webhook URL)_
+9. กดเปิด "Use webhook" ถ้าหากยังไม่ได้เปิด
