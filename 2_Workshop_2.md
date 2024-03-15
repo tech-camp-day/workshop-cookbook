@@ -31,9 +31,9 @@
 
 1. สร้างบอตใหม่ตามขั้นตอนใน[ไฟล์นี้](0_Create_LINE_bot.md)
 2. หลังจากสร้างบอตเสร็จแล้ว ไปที่หน้า "Basic settings" ของบอต
-3. คัดลอก Channel secret ไปแทนที่คำว่า `MEMBER_CHANNEL_SECRET` ในไฟล์ `member.js` ที่บรรทัดที่ 7
+3. คัดลอก Channel secret ไปแทนที่คำว่า `MEMBER_CHANNEL_SECRET` ในไฟล์ `member.js`
 4. ไปที่หน้า "Messaging API" ของบอต
-5. คัดลอก Channel access token ไปแทนที่คำว่า `MEMBER_CHANNEL_ACCESS_TOKEN` ในไฟล์เดียวกันที่บรรทัดที่ 8
+5. คัดลอก Channel access token ไปแทนที่คำว่า `MEMBER_CHANNEL_ACCESS_TOKEN` ในไฟล์เดียวกัน
 6. ใน Codesandbox, กด Save (`Ctrl` + `S`), โปรแกรมจะเริ่มใหม่โดยอัตโนมัติ
 7. ใน Codesandbox จอครึ่งขวาจะเป็น Browser ที่มีลิงค์อยู่ด้านบน ให้ Copy ลิงค์นั้นไปวางในหน้า "Messaging API" ของบอต ในช่อง "Webhook URL" แล้วต่อท้ายด้วย `/webhooks/member` 
 > ตัวอย่าง `https://www.your-url.com/webhooks/member`
@@ -232,7 +232,7 @@ function handleLineEvent(event) {
 
 ## Step 4.5: Member Cheat code
 
-สำหรับคนที่ตามไม่ทัน ก็อปโค้ดนี้ไปแทนที่โค้ดในไฟล์ `member.js`, เปลี่ยน `MEMBER_CHANNEL_SECRET` และ `MEMBER_CHANNEL_ACCESS_TOKEN` บรรทัดที่ 5-6 แล้วกด Save แล้วลองเพิ่มเพื่อน บล็อก และปลดบล็อคดู
+สำหรับคนที่ตามไม่ทัน ก็อปโค้ดนี้ไปแทนที่โค้ดในไฟล์ `member.js`, เปลี่ยน `MEMBER_CHANNEL_SECRET` และ `MEMBER_CHANNEL_ACCESS_TOKEN` แล้วกด Save แล้วลองเพิ่มเพื่อน บล็อก และปลดบล็อคดู
 
 <details>
 <summary>โค้ดเต็ม <code>member.js</code></summary>
@@ -331,9 +331,9 @@ module.exports = {
 
 1. สร้างบอตใหม่ตามขั้นตอนใน[ไฟล์นี้](0_Create_LINE_bot.md)
 2. หลังจากสร้างบอตเสร็จแล้ว ไปที่หน้า "Basic settings" ของบอต
-3. คัดลอก Channel secret ไปแทนที่คำว่า `MERCHANT_CHANNEL_SECRET` ในไฟล์ `merchant.js` ที่บรรทัดที่ 13
+3. คัดลอก Channel secret ไปแทนที่คำว่า `MERCHANT_CHANNEL_SECRET` ในไฟล์ `merchant.js`
 4. ไปที่หน้า "Messaging API" ของบอต
-5. คัดลอก Channel access token ไปแทนที่คำว่า `MERCHANT_CHANNEL_ACCESS_TOKEN` ในไฟล์เดียวกันที่บรรทัดที่ 15
+5. คัดลอก Channel access token ไปแทนที่คำว่า `MERCHANT_CHANNEL_ACCESS_TOKEN` ในไฟล์เดียวกัน
 6. เลื่อนลงไปที่ "LINE Official Account features" ตรง "Auto-reply messages" ให้กด "Edit" แล้วก็กดปิดฟีเจอร์ทุกอย่างยกเว้น "Webhook"
 7. ใน Codesandbox, กด Save (`Ctrl` + `S`), โปรแกรมจะเริ่มใหม่โดยอัตโนมัติ
 8. ใน Codesandbox จอครึ่งขวาจะเป็น Browser ที่มีลิงค์อยู่ด้านบน ให้ Copy ลิงค์นั้นไปวางในหน้า "Messaging API" ของบอต ในช่อง "Webhook URL" แล้วต่อท้ายด้วย `/webhooks/merchant` 
@@ -464,7 +464,7 @@ function handleMessageEvent(event) {
 
 ## Step 5.5: Merchant Cheat code
 
-สำหรับคนที่ตามไม่ทัน ก็อปโค้ดนี้ไปแทนที่โค้ดในไฟล์ `merchant.js`, เปลี่ยน `MERCHANT_CHANNEL_SECRET` และ `MERCHANT_CHANNEL_ACCESS_TOKEN` บรรทัดที่ 13-15 แล้วกด Save แล้วลองเล่นดู
+สำหรับคนที่ตามไม่ทัน ก็อปโค้ดนี้ไปแทนที่โค้ดในไฟล์ `merchant.js`, เปลี่ยน `MERCHANT_CHANNEL_SECRET` และ `MERCHANT_CHANNEL_ACCESS_TOKEN` แล้วกด Save แล้วลองเล่นดู
 
 <details>
 <summary>โค้ดเต็ม <code>merchant.js</code></summary>
