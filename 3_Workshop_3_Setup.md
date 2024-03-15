@@ -7,7 +7,7 @@
 
 - **โปรเจค 1: [Expense Memo](https://codesandbox.io/p/devbox/expense-memo-template-39t34j) - บอตจดรายจ่าย**
   - ลองเล่น  
-    ![Expense QR](expense-qr.png)
+    [![Expense QR](expense-qr.png)](https://lin.ee/sH5A5pc)
   - ความสามารถที่มีในโปรเจคนี้
     - จดรายจ่าย
     - รายงานค่าใช้จ่ายรวมในระยะเวลาที่กำหนด
@@ -18,7 +18,7 @@
 
 - **โปรเจค 2: [Vocab Flash Card](https://codesandbox.io/p/devbox/vocab-flash-card-template-qsc7n7) - บอตเล่นเกมทายศัพท์**
   - ลองเล่น  
-    ![Vocab QR](vocab-qr.png)
+    [![Vocab QR](vocab-qr.png)](https://lin.ee/gpYPIIB)
   - ความสามารถที่มีในโปรเจคนี้
     - ส่งศัพท์ภาษาอังกฤษเพื่อให้ผู้ใช้ทายคำแปลภาษาไทย
   - ตัวอย่างฟีเจอร์ที่สามารถเพิ่มเข้าไปได้
@@ -28,7 +28,7 @@
 
 - **โปรเจค 3: [Weather Bot](https://codesandbox.io/p/devbox/weather-bot-template-qgxxs2) - บอตรายงานสภาพอากาศ**
   - ลองเล่น  
-    ![Weather QR](weather-qr.png)
+    [![Weather QR](weather-qr.png)](https://lin.ee/sgi4P4T)
   - ความสามารถที่มีในโปรเจคนี้
     - ให้ผู้ใช้กำหนดจังหวัดที่ตัวเองอยู่
     - รายงานสภาพอากาศทุกเช้า
