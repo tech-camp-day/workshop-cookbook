@@ -19,9 +19,9 @@
 
 1. สร้างบอตใหม่ตามขั้นตอนใน[ไฟล์นี้](0_Create_LINE_bot.md)
 2. หลังจากสร้างบอตเสร็จแล้ว ไปที่หน้า "Basic settings" ของบอต
-3. คัดลอก Channel secret ไปแทนที่คำว่า `CHANNEL_SECRET` ในไฟล์ `index.js` ที่บรรทัดที่ 6
+3. คัดลอก Channel secret ไปแทนที่คำว่า `CHANNEL_SECRET` ในไฟล์ `index.js`
 4. ไปที่หน้า "Messaging API" ของบอต
-5. คัดลอก Channel access token ไปแทนที่คำว่า `CHANNEL_ACCESS_TOKEN` ในไฟล์เดียวกันที่บรรทัดที่ 7
+5. คัดลอก Channel access token ไปแทนที่คำว่า `CHANNEL_ACCESS_TOKEN` ในไฟล์เดียวกัน
 6. ใน Codesandbox, กด Save (`Ctrl` + `S`), โปรแกรมจะเริ่มใหม่โดยอัตโนมัติ
 
 ## Step 1.5: อธิบายโค้ดเล็กน้อยก่อนเริ่ม (ข้ามได้ถ้าเทพแล้ว)
@@ -33,7 +33,7 @@
 
 ## Step 2: ทำให้ "ดูดวง Bot" ตอบข้อความได้
 
-1. ในไฟล์ `index.js`, เพิ่มโค้ดต่อไปนี้ใต้ตัวแปร `lineConfig` บรรทัดที่ 9
+1. ในไฟล์ `index.js`, เพิ่มโค้ดต่อไปนี้ใต้ตัวแปร `lineConfig`
 
 ```javascript
 const messagingClient = new line.messagingApi.MessagingApiClient(lineConfig);
@@ -165,7 +165,7 @@ function handleLineEvent(event) {
 
 
 ## Step 99: Cheat code
-สำหรับคนที่ตามไม่ทัน ก็อปโค้ดนี้ไปแทนที่โค้ดในไฟล์ `index.js`, เปลี่ยน `CHANNEL_SECRET` และ `CHANNEL_ACCESS_TOKEN` บรรทัดที่ 6-7 แล้วกด Save แล้วลองส่งอะไรก็ได้ใน LINE ดู
+สำหรับคนที่ตามไม่ทัน ก็อปโค้ดนี้ไปแทนที่โค้ดในไฟล์ `index.js`, เปลี่ยน `CHANNEL_SECRET` และ `CHANNEL_ACCESS_TOKEN` แล้วกด Save แล้วลองส่งอะไรก็ได้ใน LINE ดู
 <details>
 <summary>โค้ดเต็ม index.js</summary>
 
