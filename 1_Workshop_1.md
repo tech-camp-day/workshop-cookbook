@@ -22,8 +22,7 @@
 3. คัดลอก Channel secret ไปแทนที่คำว่า `CHANNEL_SECRET` ในไฟล์ `index.js` ที่บรรทัดที่ 6
 4. ไปที่หน้า "Messaging API" ของบอต
 5. คัดลอก Channel access token ไปแทนที่คำว่า `CHANNEL_ACCESS_TOKEN` ในไฟล์เดียวกันที่บรรทัดที่ 7
-6. เลื่อนลงไปที่ `LINE Official Account features` ตรง `Auto-reply messages` ให้กด `Edit` แล้วก็กดปิดฟีเจอร์ทุกอย่าง
-7. ใน Codesandbox, กด Save (`Ctrl` + `S`), โปรแกรมจะเริ่มใหม่โดยอัตโนมัติ
+6. ใน Codesandbox, กด Save (`Ctrl` + `S`), โปรแกรมจะเริ่มใหม่โดยอัตโนมัติ
 
 ## Step 1.5: อธิบายโค้ดเล็กน้อยก่อนเริ่ม (ข้ามได้ถ้าเทพแล้ว)
 
