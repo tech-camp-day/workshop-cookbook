@@ -37,6 +37,8 @@
 6. ใน Codesandbox, กด Save (`Ctrl` + `S`), โปรแกรมจะเริ่มใหม่โดยอัตโนมัติ
 7. ใน Codesandbox จอครึ่งขวาจะเป็น Browser ที่มีลิงค์อยู่ด้านบน ให้ Copy ลิงค์นั้นไปวางในหน้า "Messaging API" ของบอต ในช่อง "Webhook URL" แล้วต่อท้ายด้วย `/webhooks/member` 
 > ตัวอย่าง `https://www.your-url.com/webhooks/member`
+> ![image](https://github.com/tech-camp-day/workshop-cookbook/assets/47054457/2d70f3b5-6900-4c88-a892-0c107df5701f)
+
 8. กด "Update" แล้วกด "Verify" เพื่อทดสอบการเชื่อมต่อระหว่าง LINE กับบอต; ถ้าทดสอบผ่านจะขึ้นคำว่า "Success"
 9. กดเปิด "Use webhook" ถ้าหากยังไม่ได้เปิด
 
