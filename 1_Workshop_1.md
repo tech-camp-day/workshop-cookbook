@@ -155,7 +155,7 @@ function handleLineEvent(event) {
   if (text === "ดูดวง") {
     return reply(event, ...getAllFortuneMessages());
   } else {
-    return reply(event, ???); // << ใส่ข้อความตรง ???
+    return reply(event, "???"); // << ใส่ข้อความตรง ???
   }
 }
 ```
