@@ -1,531 +1,79 @@
-# Workshop 2: Creating a Smart Bot
-
-In this workshop, we will take on the role of store owners and create two bots: one for members to check their points, and another for the store to manage its members.
-
-## Step 0: Copy the Project
-1. Go to https://codesandbox.io/p/devbox/e-membership-starter-zxdpgs
-2. Click the "Fork" button in the top right corner of the page
-
-After forking, the project on your screen will become your own, and you can edit it as you like.
-
-3. Click the "Share" button in the top right corner of the page
-4. Click "Move out of Drafts"
-5. In "Change permissions," select "Unlisted" to make the project accessible
-6. Click the square box in the top left corner and select "Restart Devbox"
-
-## Step 0.5: Brief Explanation of the Code (Skip if you're already familiar)
-
-The project you just copied contains 4 important files:
-- `index.js` - The main file of the project; the program starts here
-- `persists.js` - Contains various functions related to database interactions
-- `member.js` - Code for the member bot
-- `merchant.js` - Code for the store bot
-
-Additionally, there are functions for sending messages:
-- `pushToMember` - For sending `push` messages to members
-- `replyToMember` - For sending reply messages to members
-- `replyToMerchant` - For sending reply messages to the store
-
-## Step 1: Set Up the Member Bot
-
-1. Create a new bot following the steps in [this file](0_Create_LINE_bot.md)
-2. After creating the bot, go to the "Basic settings" page
-3. Copy the Channel secret and replace `MEMBER_CHANNEL_SECRET` in `member.js` with it
-4. Go to the "Messaging API" page
-5. Copy the Channel access token and replace `MEMBER_CHANNEL_ACCESS_TOKEN` in the same file
-6. In Codesandbox, click Save (`Ctrl` + `S`); the program will restart automatically
-7. In Codesandbox, the right half of the screen is a Browser with a link at the top. Copy that link and paste it into the "Messaging API" page of the bot in the "Webhook URL" field, appending `/webhooks/member` 
-> Example: `https://www.your-url.com/webhooks/member`
-> ![image](https://github.com/tech-camp-day/workshop-cookbook/assets/47054457/2d70f3b5-6900-4c88-a892-0c107df5701f)
-
-8. Click "Update" and then "Verify" to test the connection between LINE and the bot. If successful, "Success" will appear
-9. Enable "Use webhook" if it’s not already enabled
-
-## Step 2: Add Members to the System When They Add the Bot as a Friend
-
-1. In `member.js`, create a `handleFollowEvent` function before the `handleUnknownEvent` function to handle the `follow` event we receive when someone adds our bot as a friend
-
-```js
-function handleFollowEvent(event) {
-    const userId = event.source.userId;
-
-    insertMember(userId);
-    pushToMember(userId, "Welcome to the Membership Bot! Please type 'Check Points' to check your points.");
-}
-```
-
----
-__Explanation__
-
-To add a member to the system, we need the `userId` which we can obtain from `event.source.userId`
-
-```js
-const userId = event.source.userId;
-```
-
-Once we have the `userId`, we add the member to the system using the existing `insertMember` function
-
-```js
-insertMember(userId);
-```
-
-Then, we send a welcome message to the member using the `pushToMember` function
-
-```js
-pushToMember(userId, "Welcome to the Membership Bot! Please type 'Check Points' to check your points.");
-```
-
----
-
-2. In the `handleLineEvent` function, call the `handleFollowEvent` function you just created when `event.type` is `follow`. You can add this code to the `switch` statement
-
-```js
-case "follow":
-    return handleFollowEvent(event);
-```
-
-Now, the `handleLineEvent` function should look like this:
-
-```js
-function handleLineEvent(event) {
-  switch (event.type) {
-    case "follow":
-      return handleFollowEvent(event);
-    default:
-      return handleUnknownEvent(event);
-  }
-}
-```
-
-## Step 3: Remove Members from the System When They Block the Bot
-
-1. In `member.js`, create a `handleUnfollowEvent` function before the `handleUnknownEvent` function to handle the `unfollow` event we receive when someone blocks us or removes us from their friends
-
-```js
-function handleUnfollowEvent(event) {
-  const userId = event.source.userId;
-
-  deleteMember(userId);
-}
-```
-
----
-__Explanation__
-
-To remove a member from the system, we need the `userId` which we can obtain from `event.source.userId`
-
-```js
-const userId = event.source.userId;
-```
-
-Once we have the `userId`, we remove the member from the system using the existing `deleteMember` function
-
-```js
-deleteMember(userId);
-```
-
----
-
-2. In the `handleLineEvent` function, call the `handleUnfollowEvent` function you just created when `event.type` is `unfollow`. You can add this code to the `switch` statement
-
-```js
-case "unfollow":
-    return handleUnfollowEvent(event);
-```
-
-Now, the `handleLineEvent` function should look like this:
-
-```js
-function handleLineEvent(event) {
-  switch (event.type) {
-    case "follow":
-      return handleFollowEvent(event);
-    case "unfollow":
-      return handleUnfollowEvent(event);
-    default:
-      return handleUnknownEvent(event);
-  }
-}
-```
-
-## Step 4: Allow Members to Check Their Points
-
-> When a member sends the message `Check Points`, respond with the message `You have XXX points`
-
-1. In `member.js`, create a `handleMessageEvent` function before the `handleUnknownEvent` function to handle the `message` event we receive when someone sends us a message
-
-```js
-function handleMessageEvent(event) {
-  const text = event.message.text;
-
-  if (text === "Check Points") {
-    const member = getMemberByUid(event.source.userId);
-    return replyToMember(event, `You have ${member.points} points.`);
-  }
-}
-```
-
----
-__Explanation__
-
-To check if the member sent the message `Check Points`, we use the `text` from `event.message.text`
-
-```js
-const text = event.message.text;
-```
-
-After getting the text, we check if it matches `Check Points`
-
-```js
-if (text === "Check Points") {
-    // some other code
-}
-```
-
-To find the member, we need the `userId` which we get from `event.source.userId`
-
-```js
-const userId = event.source.userId;
-```
-
-With the `userId`, we find the member using the existing `getMemberByUid` function
-
-```js
-const member = getMemberByUid(userId);
-```
-
-Then, we send the points information back to the member using the `replyToMember` function
-
-```js
-return replyToMember(event, `You have ${member.points} points.`);
-```
-
----
-
-2. In the `handleLineEvent` function, call the `handleMessageEvent` function you just created when `event.type` is `message`. You can add this code to the `switch` statement
-
-```js
-case "message":
-    return handleMessageEvent(event);
-```
-
-Now, the `handleLineEvent` function should look like this:
-
-```js
-function handleLineEvent(event) {
-  switch (event.type) {
-    case "follow":
-      return handleFollowEvent(event);
-    case "unfollow":
-      return handleUnfollowEvent(event);
-    case "message":
-      return handleMessageEvent(event);
-    default:
-      return handleUnknownEvent(event);
-  }
-}
-```
-
-3. Try sending a message to the bot
-
-## Step 4.5: Member Cheat Code
-
-For those who are having trouble, copy this code and replace the code in `member.js`, change `MEMBER_CHANNEL_SECRET` and `MEMBER_CHANNEL_ACCESS_TOKEN`, then click Save and test adding, blocking, and unblocking friends
-
-<details>
-<summary>Full code for <code>member.js</code></summary>
-
-```js
-const express = require("express");
-const line = require("@line/bot-sdk");
-const { insertMember, deleteMember, getMemberByUid } = require("../persists");
-const { replier, pusher } = require("./util");
-
-const memberConfig = {
-  channelSecret: "MEMBER_CHANNEL_SECRET",
-  channelAccessToken:
-    "MEMBER_CHANNEL_ACCESS_TOKEN",
-};
-
-const memberWebhookMiddleware = line.middleware(memberConfig);
-const memberClient = new line.messagingApi.MessagingApiClient(memberConfig);
-const replyToMember = replier(memberClient);
-const pushToMember = pusher(memberClient);
-
-const router = express.Router();
-
-router.post("/", memberWebhookMiddleware, handlePostRequest);
-
-/**
- * Handle requests to /webhooks/member
- * @param {Object} request - Incoming request
- * @param {Object} response - Response to the request
- * @returns {Promise} - Returns the result of event handling
- */
-async function handlePostRequest(request, response) {
-  // Extract events from request body
-  const { events } = request.body;
-
-  // Handle each event
-
-
-  await Promise.all(events.map(handleLineEvent));
-
-  // Send a 200 OK response
-  response.sendStatus(200);
-}
-
-/**
- * Handle LINE events
- * @param {Object} event - LINE event
- * @returns {Promise} - Returns the result of event handling
- */
-function handleLineEvent(event) {
-  switch (event.type) {
-    case "follow":
-      return handleFollowEvent(event);
-    case "unfollow":
-      return handleUnfollowEvent(event);
-    case "message":
-      return handleMessageEvent(event);
-    default:
-      return handleUnknownEvent(event);
-  }
-}
-
-/**
- * Handle follow events
- * @param {Object} event - LINE event
- * @returns {Promise} - Returns the result of follow event handling
- */
-function handleFollowEvent(event) {
-  const userId = event.source.userId;
-
-  insertMember(userId);
-  pushToMember(userId, "Welcome to the Membership Bot! Please type 'Check Points' to check your points.");
-}
-
-/**
- * Handle unfollow events
- * @param {Object} event - LINE event
- * @returns {Promise} - Returns the result of unfollow event handling
- */
-function handleUnfollowEvent(event) {
-  const userId = event.source.userId;
-
-  deleteMember(userId);
-}
-
-/**
- * Handle message events
- * @param {Object} event - LINE event
- * @returns {Promise} - Returns the result of message event handling
- */
-function handleMessageEvent(event) {
-  const text = event.message.text;
-
-  if (text === "Check Points") {
-    const member = getMemberByUid(event.source.userId);
-    return replyToMember(event, `You have ${member.points} points.`);
-  }
-}
-
-/**
- * Handle unknown events
- * @param {Object} event - LINE event
- * @returns {Promise} - Returns an empty result
- */
-function handleUnknownEvent(event) {
-  // Do nothing for unknown events
-}
-
-module.exports = router;
-```
-</details>
-
-## Step 5: Set Up the Store Bot
-
-1. Create a new bot following the steps in [this file](0_Create_LINE_bot.md)
-2. After creating the bot, go to the "Basic settings" page
-3. Copy the Channel secret and replace `MERCHANT_CHANNEL_SECRET` in `merchant.js` with it
-4. Go to the "Messaging API" page
-5. Copy the Channel access token and replace `MERCHANT_CHANNEL_ACCESS_TOKEN` in the same file
-6. In Codesandbox, click Save (`Ctrl` + `S`); the program will restart automatically
-7. In Codesandbox, the right half of the screen is a Browser with a link at the top. Copy that link and paste it into the "Messaging API" page of the bot in the "Webhook URL" field, appending `/webhooks/merchant` 
-> Example: `https://www.your-url.com/webhooks/merchant`
-> ![image](https://github.com/tech-camp-day/workshop-cookbook/assets/47054457/2d70f3b5-6900-4c88-a892-0c107df5701f)
-
-8. Click "Update" and then "Verify" to test the connection between LINE and the bot. If successful, "Success" will appear
-9. Enable "Use webhook" if it’s not already enabled
-
-## Step 6: Add Commands for the Store Bot
-
-1. In `merchant.js`, create a `handleMessageEvent` function before the `handleUnknownEvent` function to handle the `message` event we receive when someone sends us a message
-
-```js
-function handleMessageEvent(event) {
-  const text = event.message.text;
-
-  if (text === "Add Points") {
-    const userId = event.source.userId;
-    const member = getMemberByUid(userId);
-
-    if (member) {
-      addPoints(member.userId, 100);
-      return replyToMerchant(event, "Added 100 points to your account.");
-    } else {
-      return replyToMerchant(event, "You are not a member.");
-    }
-  }
-
-  if (text === "Check All Members") {
-    const members = getAllMembers();
-    let responseText = "Members:\n";
-
-    members.forEach(member => {
-      responseText += `UserID: ${member.userId}, Points: ${member.points}\n`;
-    });
-
-    return replyToMerchant(event, responseText);
-  }
-}
-```
-
----
-__Explanation__
-
-For the `Add Points` command:
-- Get the `userId` from `event.source.userId` and use it to find the member using `getMemberByUid`
-- If the member exists, use the existing `addPoints` function to add 100 points to their account and reply with a success message
-- If the member does not exist, reply with a "not a member" message
-
-For the `Check All Members` command:
-- Use the existing `getAllMembers` function to retrieve all members
-- Format the response text with each member's `userId` and `points` and reply with this information
-
----
-
-2. In the `handleLineEvent` function, call the `handleMessageEvent` function you just created when `event.type` is `message`. You can add this code to the `switch` statement
-
-```js
-case "message":
-    return handleMessageEvent(event);
-```
-
-Now, the `handleLineEvent` function should look like this:
-
-```js
-function handleLineEvent(event) {
-  switch (event.type) {
-    case "message":
-      return handleMessageEvent(event);
-    default:
-      return handleUnknownEvent(event);
-  }
-}
-```
-
-3. Try sending the `Add Points` and `Check All Members` commands to the bot
-
-## Step 6.5: Store Bot Cheat Code
-
-For those who are having trouble, copy this code and replace the code in `merchant.js`, change `MERCHANT_CHANNEL_SECRET` and `MERCHANT_CHANNEL_ACCESS_TOKEN`, then click Save and test the `Add Points` and `Check All Members` commands
-
-<details>
-<summary>Full code for <code>merchant.js</code></summary>
-
-```js
-const express = require("express");
-const line = require("@line/bot-sdk");
-const { getMemberByUid, addPoints, getAllMembers } = require("../persists");
-const { replier } = require("./util");
-
-const merchantConfig = {
-  channelSecret: "MERCHANT_CHANNEL_SECRET",
-  channelAccessToken:
-    "MERCHANT_CHANNEL_ACCESS_TOKEN",
-};
-
-const merchantWebhookMiddleware = line.middleware(merchantConfig);
-const merchantClient = new line.messagingApi.MessagingApiClient(merchantConfig);
-const replyToMerchant = replier(merchantClient);
-
-const router = express.Router();
-
-router.post("/", merchantWebhookMiddleware, handlePostRequest);
-
-/**
- * Handle requests to /webhooks/merchant
- * @param {Object} request - Incoming request
- * @param {Object} response - Response to the request
- * @returns {Promise} - Returns the result of event handling
- */
-async function handlePostRequest(request, response) {
-  // Extract events from request body
-  const { events } = request.body;
-
-  // Handle each event
-  await Promise.all(events.map(handleLineEvent));
-
-  // Send a 200 OK response
-  response.sendStatus(200);
-}
-
-/**
- * Handle LINE events
- * @param {Object} event - LINE event
- * @returns {Promise} - Returns the result of event handling
- */
-function handleLineEvent(event) {
-  switch (event.type) {
-    case "message":
-      return handleMessageEvent(event);
-    default:
-      return handleUnknownEvent(event);
-  }
-}
-
-/**
- * Handle message events
- * @param {Object} event - LINE event
- * @returns {Promise} - Returns the result of message event handling
- */
-function handleMessageEvent(event) {
-  const text = event.message.text;
-
-  if (text === "Add Points") {
-    const userId = event.source.userId;
-    const member = getMemberByUid(userId);
-
-    if (member) {
-      addPoints(member.userId, 100);
-      return replyToMerchant(event, "Added 100 points to your account.");
-    } else {
-      return replyToMerchant(event, "You are not a member.");
-    }
-  }
-
-  if (text === "Check All Members") {
-    const members = getAllMembers();
-    let responseText = "Members:\n";
-
-    members.forEach(member => {
-      responseText += `UserID: ${member.userId}, Points: ${member.points}\n`;
-    });
-
-    return replyToMerchant(event, responseText);
-  }
-}
-
-/**
- * Handle unknown events
- * @param {Object} event - LINE event
- * @returns {Promise} - Returns an empty result
- */
-function handleUnknownEvent(event) {
-  // Do nothing for unknown events
-}
-
-module.exports = router;
-```
-</details>
+# Workshop 3: Create Your Own Bot/Build on Sample Projects
+
+We have just seen the use of APIs and long-term data storage.
+From now on, we can create more complex bots that store data for later use, call APIs from other sources to use the data.
+
+There are 3 sample projects as follows:
+
+- **Project 1: [Expense Memo](https://codesandbox.io/p/devbox/expense-memo-template-39t34j) - Expense Recording Bot**
+  - Try it  
+    [![Expense QR](/expense-qr.png)](https://lin.ee/sH5A5pc)
+  - Features in this project
+    - Record expenses
+    - Report total expenses within a specified period
+
+  - Example features that can be added
+    - Show the last 10 entries
+    - Delete unwanted entries
+
+- **Project 2: [Vocab Flash Card](https://codesandbox.io/p/devbox/vocab-flash-card-template-qsc7n7) - Vocabulary Guessing Game Bot**
+  - Try it  
+    [![Vocab QR](/vocab-qr.png)](https://lin.ee/gpYPIIB)
+  - Features in this project
+    - Send English words for users to guess the Thai translation
+  - Example features that can be added
+    - Aggregate and report weekly scores
+    - Allow repeated guesses if wrong, but give half points
+
+- **Project 3: [Weather Bot](https://codesandbox.io/p/devbox/weather-bot-template-qgxxs2) - Weather Reporting Bot**
+  - Try it  
+    [![Weather QR](/weather-qr.png)](https://lin.ee/sgi4P4T)
+  - Features in this project
+    - Allow users to set their province
+    - Report weather every morning
+    - Alert if bad weather is expected in the next hour
+
+  - Example features that can be added
+    - Request immediate weather report
+    - Notify when the rain will stop
+
+- **[Blank Project](https://codesandbox.io/p/devbox/empty-line-chatbot-template-klx43w) - If you're skilled, go for it**
+  - Includes LINE message receiver and sender
+  - Includes a blank database creator
+
+## Project Structure
+
+All 3 projects have a similar structure. Since these are more complex projects, the code is divided into multiple files and folders as follows:
+
+- `src/` - Main project folder
+  - `index.js` - Main application file
+  - `data/` - Folder related to data storage
+    - `db.js` - Database connection + data management functions
+    - Some projects will also have `.json` files as initial data for starting the system
+  - `line/` - Folder related to sending messages via LINE
+    - `messageHandler.js` - Receives messages from LINE, processes them, and sends back
+    - `messageSender.js` - Helper for sending reply messages to LINE more easily
+    - Some projects will also have `schedules.js` file to manage scheduled message sending
+  - `routes/` - Folder related to server chatbot request handling
+    - `line-webhook.js` - Handles requests related to LINE
+  - Some projects have other folders such as `weather/` for managing weather data or others
+
+## Setting Up the Project in Codesandbox
+
+Since the projects in Workshop 3 are larger, setting up the project in Codesandbox has a few additional steps compared to Workshops 1 and 2 as follows:
+
+0. Create a new bot following the steps in [this file](0_Create_LINE_bot.md)
+1. Go to the link of the desired project
+2. Click the "Fork" button at the top right corner of the page
+3. After forking, the project you see on the screen will change to your own project
+4. Click the "Share" button at the top right corner of the page
+5. Click the "Move out of Drafts" button
+6. In "Change permissions", select "Unlisted" to make the project accessible
+7. Then set up Environment variables in Codesandbox by
+  - Click the Codesandbox menu (square box at the top left corner) > Settings > Env Variables
+  - Enter the following Environment variables:
+    - `LINE_CHANNEL_ACCESS_TOKEN` - Channel access token from LINE Developers Console
+    - `LINE_CHANNEL_SECRET` - Channel secret from LINE Developers Console
+  - Click Restart microVM
+8. In Codesandbox, the right half of the screen will be a Browser with a link at the top. Add `/webhook/line` to the end and paste the entire link into the "Webhook URL" field on the bot's "Messaging API" page _(Example: If the URL in Codesandbox is `https://blablabla.codesandbox.io`; change it to `https://blablabla.codesandbox.io/webhook/line` and put it in the Webhook URL)_
+9. Click "Use webhook" if it is not already enabled
