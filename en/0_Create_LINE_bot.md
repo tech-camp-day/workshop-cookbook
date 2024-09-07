@@ -12,6 +12,8 @@
 
 At this point, you have created your LINE Bot, but you need to complete some additional settings:
 
+**NOTE: DO THESE AFTER YOU GOT YOUR Webhook URL FROM EACH WORKSHOP**
+
 1. On the Bot's Channel page, go to the "Messaging API" tab.
 2. Scroll down to "Greeting messages", click Edit on the right side to open the Response settings page.
 3. Configure the settings as follows:
