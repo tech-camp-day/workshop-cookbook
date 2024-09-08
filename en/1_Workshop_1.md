@@ -14,7 +14,7 @@ After forking, the project you see on the screen will become your own, and you c
 5. In "Change permissions," select "Unlisted" to make the project accessible.
 6. Click the square box in the top-left corner, then click "Restart Devbox."
 
-## Step 1: Issue tokens for your Bot
+## Step 1: Configure the Bot
 
 1. Create a new bot following the steps in [this file](0_Create_LINE_bot.md).
 2. After creating the bot, go to the bot's "Basic settings" page.
@@ -67,7 +67,7 @@ function handleLineEvent(event) {
 5. In Codesandbox, the right side of the screen will show a Browser with a link at the top. Copy that link and paste it into the "Webhook URL" field on the bot's "Messaging API" page.
 6. Click "Update" and then "Verify" to test the connection between LINE and the bot; if successful, "Success" will appear.
 7. Click to enable "Use webhook" if it isn't already enabled.
-8. Config your bot following [this file](0_2_Config_LINE_bot.md)
+8. Configure your bot following [this file](0_2_Config_LINE_bot.md)
 9. Try sending any message in LINE.
 
 ## Step 3: Randomly Generate Fortune
