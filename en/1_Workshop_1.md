@@ -14,7 +14,7 @@ After forking, the project you see on the screen will become your own, and you c
 5. In "Change permissions," select "Unlisted" to make the project accessible.
 6. Click the square box in the top-left corner, then click "Restart Devbox."
 
-## Step 1: Configure the Bot
+## Step 1: Issue tokens for your Bot
 
 1. Create a new bot following the steps in [this file](0_Create_LINE_bot.md).
 2. After creating the bot, go to the bot's "Basic settings" page.
