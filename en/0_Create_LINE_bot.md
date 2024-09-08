@@ -9,6 +9,10 @@
 7. Click "Settings" at the top right corner.
 8. Click "Messaging API", and then click "Enable Messaging API"
 9. Select the provider that we just created from 1.
+10. Go back to [LINE Developers Console](https://developers.line.biz/console)
+11. Select the channel you just created
+12. In Basic settings, click issue "Channel secret"
+13. In Messaging API, click issue "Channel access token"
 
 At this point, you have created your LINE Bot, but you need to complete some additional settings.
 
