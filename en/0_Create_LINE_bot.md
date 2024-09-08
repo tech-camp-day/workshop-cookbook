@@ -10,18 +10,6 @@
 8. Click "Messaging API", and then click "Enable Messaging API"
 9. Select the provider that we just created from 1.
 
-At this point, you have created your LINE Bot, but you need to complete some additional settings:
+At this point, you have created your LINE Bot, but you need to complete some additional settings.
 
-**NOTE: DO THESE AFTER YOU GOT YOUR Webhook URL FROM EACH WORKSHOP**
-
-1. On the Bot's Channel page, go to the "Messaging API" tab.
-2. Scroll down to "Greeting messages", click Edit on the right side to open the Response settings page.
-3. Configure the settings as follows:
-   - Chat: Off
-   - Greeting message: Off
-   - Webhooks: **On**
-   - Auto-response messages: Off
-   - Response hours: Off
-4. Close the Response settings page, return to the previous page, scroll down to the bottom, and click "Issue" under Channel access token.
-
-Your Bot is now ready for use.
+We will come back to config our bot later.
