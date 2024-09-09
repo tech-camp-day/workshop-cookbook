@@ -4,7 +4,7 @@
 
 ## Step 0: Copy โปรเจค
 
-1. ไปที่ https://codesandbox.io/p/devbox/fortune-teller-bot-starter-32fy4v
+1. ไปที่ https://codesandbox.io/p/devbox/fortune-teller-template-th-6kzpwn
 2. กดปุ่ม "Fork" ที่มุมขวาบนของหน้า
 
 หลังจาก Fork แล้ว โปรเจคที่เห็นในจอจะเปลี่ยนเป็นโปรเจคที่เป็นของคุณเอง และสามารถแก้ไขได้ตามต้องการ
