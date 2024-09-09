@@ -1,5 +1,7 @@
 # วิธีตั้งค่า LINE Bot
 
+> หากเคยทำขั้นตอนด้านล่างครบหมดแล้วสำหรับ Workshop แรก ใน Workshop ต่อ ๆ ไปสามารถทำแค่ขั้นตอนที่ 1 ได้ โดยทำการเปลี่ยนลิงก์ให้เป็น CodeSandbox ของแต่ละ Workshop แทน
+
 1. เชคให้แน่ใจว่าเราได้เพิ่ม Webhook URL ของเราใน "Messaging API" และติ๊กที่ช่อง "Enable Webhook" แล้ว
 2. ไปที่ "Messaging API"
 3. เลื่อนลงไปที่ "LINE Official Account features" แล้วคลิกที่ Edit ทางด้านขวาของ "Greeting messages" เพื่อเปิดหน้าสำหรับตั้งค่าเพิ่มเติม
