@@ -4,7 +4,7 @@ In this workshop, we will create a fortuneteller bot by randomly selecting predi
 
 ## Step 0: Copy the Project
 
-1. Go to [this link](https://codesandbox.io/p/devbox/fortune-teller-bot-starter-32fy4v).
+1. Go to [this link](https://codesandbox.io/p/devbox/fortune-teller-template-en-v2-msg662).
 2. Click the "Fork" button in the top-right corner of the page.
 
 After forking, the project you see on the screen will become your own, and you can modify it as needed.
@@ -66,7 +66,9 @@ function handleLineEvent(event) {
 4. Click Save.
 5. In Codesandbox, the right side of the screen will show a Browser with a link at the top. Copy that link and paste it into the "Webhook URL" field on the bot's "Messaging API" page.
 6. Click "Update" and then "Verify" to test the connection between LINE and the bot; if successful, "Success" will appear.
-7. Click to enable "Use webhook" if it isn't already enabled, and try sending any message in LINE.
+7. Click to enable "Use webhook" if it isn't already enabled.
+8. Configure your bot following [this file](0_2_Config_LINE_bot.md)
+9. Try sending any message in LINE.
 
 ## Step 3: Randomly Generate Fortune
 
