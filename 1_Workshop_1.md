@@ -4,7 +4,7 @@
 
 ## Step 0: Copy โปรเจค
 
-1. ไปที่ https://codesandbox.io/p/devbox/fortune-teller-template-th-6kzpwn
+1. ไปที่ https://codesandbox.io/p/devbox/thirsty-gates-6kzpwn
 2. กดปุ่ม "Fork" ที่มุมขวาบนของหน้า
 
 หลังจาก Fork แล้ว โปรเจคที่เห็นในจอจะเปลี่ยนเป็นโปรเจคที่เป็นของคุณเอง และสามารถแก้ไขได้ตามต้องการ
@@ -68,7 +68,9 @@ function handleLineEvent(event) {
 4. กด Save 
 5. ใน Codesandbox จอครึ่งขวาจะเป็น Browser ที่มีลิงค์อยู่ด้านบน ให้ Copy ลิงค์นั้นไปวางในหน้า "Messaging API" ของบอต ในช่อง "Webhook URL"
 6. กด "Update" แล้วกด "Verify" เพื่อทดสอบการเชื่อมต่อระหว่าง LINE กับบอต; ถ้าทดสอบผ่านจะขึ้นคำว่า "Success"
-7. กดเปิด "Use webhook" ถ้าหากยังไม่ได้เปิด แล้วลองส่งอะไรก็ได้ใน LINE ดู
+7. กดเปิด "Use webhook" ถ้าหากยังไม่ได้เปิด
+8. ตั้งค่าบอทเพิ่มเล็กน้อยตาม[ไฟล์นี้](0_2_Config_LINE_bot.md)
+9. ลองส่งอะไรก็ได้ใน LINE ดู
 
 
 ## Step 3: สุ่มคำทำนาย
