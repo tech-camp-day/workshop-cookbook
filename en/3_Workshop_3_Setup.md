@@ -7,7 +7,7 @@ There are 3 sample projects as follows:
 
 - **Project 1: [Expense Memo](https://codesandbox.io/p/devbox/expense-memo-template-39t34j) - Expense Recording Bot**
   - Try it  
-    [![Expense QR](/expense-qr.png)](https://lin.ee/sH5A5pc)
+    [![Expense QR](/en/expense-qr.png)](https://lin.ee/yplyCvT)
   - Features in this project
     - Record expenses
     - Report total expenses within a specified period
@@ -18,7 +18,7 @@ There are 3 sample projects as follows:
 
 - **Project 2: [Vocab Flash Card](https://codesandbox.io/p/devbox/vocab-flash-card-template-qsc7n7) - Vocabulary Guessing Game Bot**
   - Try it  
-    [![Vocab QR](/vocab-qr.png)](https://lin.ee/gpYPIIB)
+    [![Vocab QR](/en/vocab-qr.png)](https://lin.ee/B5h9G6fO)
   - Features in this project
     - Send English words for users to guess the Thai translation
   - Example features that can be added
@@ -27,7 +27,7 @@ There are 3 sample projects as follows:
 
 - **Project 3: [Weather Bot](https://codesandbox.io/p/devbox/weather-bot-template-qgxxs2) - Weather Reporting Bot**
   - Try it  
-    [![Weather QR](/weather-qr.png)](https://lin.ee/sgi4P4T)
+    [![Weather QR](/en/weather-qr.png)](https://lin.ee/tYYjzsC)
   - Features in this project
     - Allow users to set their province
     - Report weather every morning
