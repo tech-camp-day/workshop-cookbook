@@ -40,6 +40,7 @@ Additionally, there are functions for sending messages:
 
 8. Click "Update" and then "Verify" to test the connection between LINE and the bot; if successful, it will show "Success."
 9. Enable "Use webhook" if it's not already turned on.
+10. Make sure you configure your bot(or channel) following [this file](0_2_Config_LINE_bot.md)
 
 ## Step 2: Add Members to the System When They Follow the Bot
 
