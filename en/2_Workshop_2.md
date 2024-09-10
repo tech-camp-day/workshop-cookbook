@@ -149,6 +149,14 @@ function handleLineEvent(event) {
 }
 ```
 
+## Step 3.1 Register by Blocking/Unblocking
+
+1. Since the `handleFollowEvent` function only triggers when a friend is added, we need to block the bot first, simulating an unfollow.
+2. Go to your LINE Bot and select the three-line menu.
+3. Select block.
+4. Select unblock to re-add the bot. The bot will greet you again.
+
+
 ## Step 4: Allow Members to Check Their Points
 
 > When a member sends the message `Check Points`, reply with the message `You have XXX points`.
