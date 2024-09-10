@@ -77,3 +77,4 @@ Since the projects in Workshop 3 are larger, setting up the project in Codesandb
   - Click Restart microVM
 8. In Codesandbox, the right half of the screen will be a Browser with a link at the top. Add `/webhook/line` to the end and paste the entire link into the "Webhook URL" field on the bot's "Messaging API" page _(Example: If the URL in Codesandbox is `https://blablabla.codesandbox.io`; change it to `https://blablabla.codesandbox.io/webhook/line` and put it in the Webhook URL)_
 9. Click "Use webhook" if it is not already enabled
+10. Make sure you configure your bot(or channel) following [this file](0_2_Config_LINE_bot.md)
