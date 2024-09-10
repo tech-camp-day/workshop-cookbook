@@ -5,7 +5,7 @@ From now on, we can create more complex bots that store data for later use, call
 
 There are 3 sample projects as follows:
 
-- **Project 1: [Expense Memo](https://codesandbox.io/p/devbox/expense-memo-template-39t34j) - Expense Recording Bot**
+- **Project 1: [Expense Memo](https://codesandbox.io/p/devbox/expense-memo-template-en-tqwrzm) - Expense Recording Bot**
   - Try it  
     [![Expense QR](/en/expense-en-qr.png)](https://lin.ee/yplyCvT)
   - Features in this project
@@ -16,7 +16,7 @@ There are 3 sample projects as follows:
     - Show the last 10 entries
     - Delete unwanted entries
 
-- **Project 2: [Vocab Flash Card](https://codesandbox.io/p/devbox/vocab-flash-card-template-qsc7n7) - Vocabulary Guessing Game Bot**
+- **Project 2: [Vocab Flash Card](https://codesandbox.io/p/devbox/vocab-flashcard-template-en-g3wlsl) - Vocabulary Guessing Game Bot**
   - Try it  
     [![Vocab QR](/en/vocab-en-qr.png)](https://lin.ee/B5h9G6fO)
   - Features in this project
@@ -25,7 +25,7 @@ There are 3 sample projects as follows:
     - Aggregate and report weekly scores
     - Allow repeated guesses if wrong, but give half points
 
-- **Project 3: [Weather Bot](https://codesandbox.io/p/devbox/weather-bot-template-qgxxs2) - Weather Reporting Bot**
+- **Project 3: [Weather Bot](https://codesandbox.io/p/devbox/weather-bot-template-en-rj5jyl) - Weather Reporting Bot**
   - Try it  
     [![Weather QR](/en/weather-en-qr.png)](https://lin.ee/tYYjzsC)
   - Features in this project
