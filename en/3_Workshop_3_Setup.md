@@ -37,7 +37,7 @@ There are 3 sample projects as follows:
     - Request immediate weather report
     - Notify when the rain will stop
 
-- **[Blank Project](https://codesandbox.io/p/devbox/empty-line-chatbot-template-klx43w) - If you're skilled, go for it**
+- **[Blank Project](https://codesandbox.io/p/devbox/empty-template-en-dvnf3k) - If you're skilled, go for it**
   - Includes LINE message receiver and sender
   - Includes a blank database creator
 
