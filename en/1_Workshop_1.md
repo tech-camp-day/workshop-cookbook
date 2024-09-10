@@ -4,7 +4,7 @@ In this workshop, we will create a fortuneteller bot by randomly selecting predi
 
 ## Step 0: Copy the Project
 
-1. Go to [this link](https://codesandbox.io/p/devbox/fortune-teller-template-en-v2-msg662).
+1. Go to [this link](https://codesandbox.io/p/devbox/fortune-teller-template-en-msg662).
 2. Click the "Fork" button in the top-right corner of the page.
 
 After forking, the project you see on the screen will become your own, and you can modify it as needed.
