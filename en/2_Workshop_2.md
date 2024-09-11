@@ -385,7 +385,7 @@ function handlePointIncrease(event, text) {
 ---
 __Explanation__
 
-Since the command to add points to a member will come in the format `เพิ่มคะแนน <member ID> <points to add>`, we need to extract the member ID and the points to add using:
+Since the command to add points to a member will come in the format `Add points <member ID> <points to add>`, we need to extract the member ID and the points to add using:
 
 ```js
 const [_, memberId, pointToAddText] = text.split(" ");
@@ -435,7 +435,7 @@ return replyToMerchant(event, `Added ${pointToAdd} points to member ID ${memberI
 
 ---
 
-2. In the `handleMessageEvent` function, add a condition to check if the message contains "เพิ่มคะแนน" (Add points) and call the `handlePointIncrease` function created earlier:
+2. In the `handleMessageEvent` function, add a condition to check if the message contains "Add points" and call the `handlePointIncrease` function created earlier:
 
 ```js
 if (text.includes("Add points")) {
