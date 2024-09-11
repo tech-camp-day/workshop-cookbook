@@ -361,7 +361,7 @@ In `merchant.js`, we already have some code, such as:
 
 ```js
 function handlePointIncrease(event, text) {
-  const [_, memberId, pointToAddText] = text.split(" ");
+  const [_add, _points, memberId, pointToAddText] = text.split(" ");
 
   const member = getMemberById(memberId);
 
@@ -388,7 +388,7 @@ __Explanation__
 Since the command to add points to a member will come in the format `Add points <member ID> <points to add>`, we need to extract the member ID and the points to add using:
 
 ```js
-const [_, memberId, pointToAddText] = text.split(" ");
+const [_add, _points, memberId, pointToAddText] = text.split(" ");
 ```
 
 To add points, we need to take the current points and add the new points to it: `new points = current points + points to add`. Therefore, we need to find the member to update the points using the `getMemberById` function:
