@@ -11,7 +11,7 @@
 9. เลือก provider ที่เราสร้างขึ้นในข้อ 1
 10. ในหน้า "Privacy Policy and Terms of Use" คลิก "OK" ได้เลย
 11. กลับไปที่ [LINE Developers Console](https://developers.line.biz/console)
-12. เลือก Provider ที่คุณเพิ่งสร้าง
+12. เลือก Channel ที่คุณเพิ่งสร้าง
 13. ใน Basic settings คลิก issue "Channel secret"
 14. ใน Messaging API คลิก issue "Channel access token"
 
