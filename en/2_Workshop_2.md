@@ -435,10 +435,10 @@ return replyToMerchant(event, `Added ${pointToAdd} points to member ID ${memberI
 
 ---
 
-2. In the `handleMessageEvent` function, add a condition to check if the message contains "เพิ่มคะแนน" (add points) and call the `handlePointIncrease` function created earlier:
+2. In the `handleMessageEvent` function, add a condition to check if the message contains "เพิ่มคะแนน" (Add points) and call the `handlePointIncrease` function created earlier:
 
 ```js
-if (text.includes("เพิ่มคะแนน")) {
+if (text.includes("Add points")) {
     return handlePointIncrease(event, text);
 }
 ```
@@ -449,20 +449,20 @@ The `handleMessageEvent` function will look something like this:
 function handleMessageEvent(event) {
   const text = event.message.text;
 
-  if (text === "จัดการสมาชิก") {
+  if (text === "Manage members") {
     const members = getAllMembers();
     const memberInfoMessages = members.map((member) => `Member ID ${member.id} has ${member.points} points`);
 
     return replyToMerchant(event, ...memberInfoMessages);
   }
 
-  if (text.includes("เพิ่มคะแนน")) {
+  if (text.includes("Add points")) {
     return handlePointIncrease(event, text);
   }
 
   return replyToMerchant(
     event,
-    "Please type 'จัดการสมาชิก' to see member information or 'เพิ่มคะแนน <member ID> <points>' to add points to a member",
+    "Please type 'Manage members' to see member information or 'Add points <member ID> <points>' to add points to a member",
   );
 }
 ```
@@ -534,20 +534,20 @@ function handleLineEvent(event) {
 function handleMessageEvent(event) {
   const text = event.message.text;
 
-  if (text === "จัดการสมาชิก") {
+  if (text === "Manage members") {
     const members = getAllMembers();
     const memberInfoMessages = members.map((member) => `Member ID ${member.id} has ${member.points} points`);
 
     return replyToMerchant(event, ...memberInfoMessages);
   }
 
-  if (text.includes("เพิ่มคะแนน")) {
+  if (text.includes("Add points")) {
     return handlePointIncrease(event, text);
   }
 
   return replyToMerchant(
     event,
-    "Please type 'จัดการสมาชิก' to see member information or 'เพิ่มคะแนน <member ID> <points>' to add points to a member",
+    "Please type 'Manage members' to see member information or 'Add points <member ID> <points>' to add points to a member",
   );
 }
 
