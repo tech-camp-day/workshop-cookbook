@@ -9,10 +9,11 @@
 7. คลิกที่ "Settings" ที่มุมขวาบน
 8. คลิกที่ "Messaging API" และจากนั้นคลิก "Enable Messaging API"
 9. เลือก provider ที่เราสร้างขึ้นในข้อ 1
-10. กลับไปที่ [LINE Developers Console](https://developers.line.biz/console)
-11. เลือก Provider ที่คุณเพิ่งสร้าง
-12. ใน Basic settings คลิก issue "Channel secret"
-13. ใน Messaging API คลิก issue "Channel access token"
+10. ในหน้า "Privacy Policy and Terms of Use" คลิก "OK" ได้เลย
+11. กลับไปที่ [LINE Developers Console](https://developers.line.biz/console)
+12. เลือก Provider ที่คุณเพิ่งสร้าง
+13. ใน Basic settings คลิก issue "Channel secret"
+14. ใน Messaging API คลิก issue "Channel access token"
 
 ณ ตอนนี้ คุณได้สร้าง LINE Bot แล้ว
 
