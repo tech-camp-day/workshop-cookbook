@@ -9,9 +9,8 @@ In this workshop, we'll take on the role of a store owner, creating one bot for 
 After forking, the project displayed on the screen will become your own, and you can edit it as needed.
 
 3. Click the "Share" button in the top right corner of the page.
-4. Click the "Move out of Drafts" button.
-5. In "Change permissions," select "Unlisted" to make the project accessible.
-6. Click the square box in the top left corner and then click "Restart Devbox."
+4. In "Change permissions," select "Unlisted" to make the project accessible.
+5. Click the square box in the top left corner and then click "Restart Devbox."
 
 ## Step 0.5: Brief Code Explanation (Skip if you're already proficient)
 
