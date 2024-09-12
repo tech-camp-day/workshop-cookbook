@@ -68,14 +68,13 @@
 2. กดปุ่ม "Fork" ที่มุมขวาบนของหน้า
 3. หลังจาก Fork แล้ว โปรเจคที่เห็นในจอจะเปลี่ยนเป็นโปรเจคที่เป็นของคุณเอง 
 4. กดปุ่ม "Share" ที่มุมขวาบนของหน้า
-5. กดปุ่ม "Move out of Drafts"
-6. ที่ "Change permissions" ให้เลือก "Unlisted" เพื่อทำให้โปรเจคสามารถเข้าถึงได้
-7. จากนั้นตั้งค่า Environment variables ใน Codesandbox โดย
+5. ที่ "Change permissions" ให้เลือก "Unlisted" เพื่อทำให้โปรเจคสามารถเข้าถึงได้
+6. จากนั้นตั้งค่า Environment variables ใน Codesandbox โดย
   - กดเมนู Codesandbox (กล่องสี่เหลี่ยมมุมซ้ายบน) > Settings > Env Variables
   - ใส่ Environment variables ดังนี้
     - `LINE_CHANNEL_ACCESS_TOKEN` - channel access token จาก LINE Developers Console
     - `LINE_CHANNEL_SECRET` - channel secret จาก LINE Developers Console
   - กด Restart microVM
-8. ใน Codesandbox จอครึ่งขวาจะเป็น Browser ที่มีลิงค์อยู่ด้านบน ให้เติม `/webhook/line` ต่อท้ายแล้วนำทั้งหมดนั้นไปวางในหน้า "Messaging API" ของบอต ในช่อง "Webhook URL" _(ตัวอย่าง: สมมุติ URL ในหน้า Codesandbox คือ `https://blablabla.codesandbox.io`; แก้ไขให้เป็น `https://blablabla.codesandbox.io/webhook/line` แล้วนำไปใส่ใน Webhook URL)_
-9. กดเปิด "Use webhook" ถ้าหากยังไม่ได้เปิด
-10. เชคให้มั่นใจว่าเราตั้งค่าบอทของเราตาม[ไฟล์นี้](0_2_Config_LINE_bot.md)
+7. ใน Codesandbox จอครึ่งขวาจะเป็น Browser ที่มีลิงค์อยู่ด้านบน ให้เติม `/webhook/line` ต่อท้ายแล้วนำทั้งหมดนั้นไปวางในหน้า "Messaging API" ของบอต ในช่อง "Webhook URL" _(ตัวอย่าง: สมมุติ URL ในหน้า Codesandbox คือ `https://blablabla.codesandbox.io`; แก้ไขให้เป็น `https://blablabla.codesandbox.io/webhook/line` แล้วนำไปใส่ใน Webhook URL)_
+8. กดเปิด "Use webhook" ถ้าหากยังไม่ได้เปิด
+9. เชคให้มั่นใจว่าเราตั้งค่าบอทของเราตาม[ไฟล์นี้](0_2_Config_LINE_bot.md)
