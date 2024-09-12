@@ -67,14 +67,13 @@ Since the projects in Workshop 3 are larger, setting up the project in Codesandb
 2. Click the "Fork" button at the top right corner of the page
 3. After forking, the project you see on the screen will change to your own project
 4. Click the "Share" button at the top right corner of the page
-5. Click the "Move out of Drafts" button
-6. In "Change permissions", select "Unlisted" to make the project accessible
-7. Then set up Environment variables in Codesandbox by
+5. In "Change permissions", select "Unlisted" to make the project accessible
+6. Then set up Environment variables in Codesandbox by
   - Click the Codesandbox menu (square box at the top left corner) > Settings > Env Variables
   - Enter the following Environment variables:
     - `LINE_CHANNEL_ACCESS_TOKEN` - Channel access token from LINE Developers Console
     - `LINE_CHANNEL_SECRET` - Channel secret from LINE Developers Console
   - Click Restart microVM
-8. In Codesandbox, the right half of the screen will be a Browser with a link at the top. Add `/webhook/line` to the end and paste the entire link into the "Webhook URL" field on the bot's "Messaging API" page _(Example: If the URL in Codesandbox is `https://blablabla.codesandbox.io`; change it to `https://blablabla.codesandbox.io/webhook/line` and put it in the Webhook URL)_
-9. Click "Use webhook" if it is not already enabled
-10. Make sure you configure your bot(or channel) following [this file](0_2_Config_LINE_bot.md)
+7. In Codesandbox, the right half of the screen will be a Browser with a link at the top. Add `/webhook/line` to the end and paste the entire link into the "Webhook URL" field on the bot's "Messaging API" page _(Example: If the URL in Codesandbox is `https://blablabla.codesandbox.io`; change it to `https://blablabla.codesandbox.io/webhook/line` and put it in the Webhook URL)_
+8. Click "Use webhook" if it is not already enabled
+9. Make sure you configure your bot(or channel) following [this file](0_2_Config_LINE_bot.md)
