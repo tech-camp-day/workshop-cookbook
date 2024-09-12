@@ -47,10 +47,14 @@ Additionally, there are functions for sending messages:
 
 ```js
 function handleFollowEvent(event) {
-    const userId = event.source.userId;
+  const userId = event.source.userId;
 
-    insertMember(userId);
-    pushToMember(userId, "Welcome to the Membership Bot. Please type 'Check Points' to check your points.");
+  const { id: memberId } = insertMember(userId);
+  pushToMember(
+    userId,
+    "Welcome to the club. Please type 'check' to check your score.",
+    `Your member number is ${memberId}`
+  );
 }
 ```
 
@@ -72,7 +76,11 @@ insertMember(userId);
 Then send a welcome message to the member using `pushToMember`.
 
 ```js
-pushToMember(userId, "Welcome to the Membership Bot. Please type 'Check Points' to check your points.");
+  pushToMember(
+    userId,
+    "Welcome to the club. Please type 'check' to check your score.",
+    `Your member number is ${memberId}`
+  );
 ```
 
 ---
@@ -166,9 +174,19 @@ function handleLineEvent(event) {
 function handleMessageEvent(event) {
   const text = event.message.text;
 
-  if (text === "Check Points") {
-    const member = getMemberByUid(event.source.userId);
+  if (text === "check") {
+    const userId = event.source.userId;
+    const member = getMemberByUid(userId);
+
+    if (!member) {
+      return replyToMember(
+        event,
+        "Sorry, you are not a member of the store yet. Please block and unblock the bot to start over."
+      );
+    }
     return replyToMember(event, `You have ${member.points} points.`);
+  } else {
+    return replyToMember(event, "I don't understand the command.");
   }
 }
 ```
@@ -185,9 +203,11 @@ const text = event.message.text;
 Once you have the text, check if it matches `Check Points`.
 
 ```js
-if (text === "Check Points") {
+if (text === "check") {
     // some other code
-}
+} else {
+    // unknown command
+} 
 ```
 
 To find the member, use the `userId` which you can get from `event.source.userId`.
@@ -300,8 +320,12 @@ function handleLineEvent(event) {
 function handleFollowEvent(event) {
   const userId = event.source.userId;
 
-  insertMember(userId);
-  pushToMember(userId, "Welcome to the Bot Members. Please type 'Check Score' to check your score.");
+  const { id: memberId } = insertMember(userId);
+  pushToMember(
+    userId,
+    "Welcome to the club. Please type 'check' to check your score.",
+    `Your member number is ${memberId}`
+  );
 }
 
 function handleUnfollowEvent(event) {
@@ -313,10 +337,19 @@ function handleUnfollowEvent(event) {
 function handleMessageEvent(event) {
   const text = event.message.text;
 
-  if (text === "Check Score") {
+  if (text === "check") {
     const userId = event.source.userId;
     const member = getMemberByUid(userId);
-    return replyToMember(event, `You have ${member.points} points`);
+
+    if (!member) {
+      return replyToMember(
+        event,
+        "Sorry, you are not a member of the store yet. Please block and unblock the bot to start over."
+      );
+    }
+    return replyToMember(event, `You have ${member.points} points.`);
+  } else {
+    return replyToMember(event, "I don't understand the command.");
   }
 }
 
@@ -360,34 +393,37 @@ In `merchant.js`, we already have some code, such as:
 
 ```js
 function handlePointIncrease(event, text) {
-  const [_add, _points, memberId, pointToAddText] = text.split(" ");
+  const [_, memberId, pointToAddText] = text.split(" ");
+
+  if (!memberId || !pointToAddText)
+    return replyToMerchant(event, "Invalid command. Add points with the command 'add <member ID> <points>'");
 
   const member = getMemberById(memberId);
 
   if (!member) {
-    return replyToMerchant(event, `Member ID ${memberId} not found`);
+    return replyToMerchant(event, `Member with ID ${memberId} not found`);
   }
 
   const pointToAdd = parseInt(pointToAddText);
 
   if (isNaN(pointToAdd)) {
-    return replyToMerchant(event, "Please enter a numeric value for the points to add");
+    return replyToMerchant(event, "Please enter the number of points to add as a number only");
   }
 
   updatePointForMember(memberId, member.points + pointToAdd);
   pushToMember(member.uid, `You have received ${pointToAdd} points`);
 
-  return replyToMerchant(event, `Added ${pointToAdd} points to member ID ${memberId}`);
+  return replyToMerchant(event, `Added ${pointToAdd} points to member with ID ${memberId}`);
 }
 ```
 
 ---
 __Explanation__
 
-Since the command to add points to a member will come in the format `Add points <member ID> <points to add>`, we need to extract the member ID and the points to add using:
+Since the command to add points to a member will come in the format `add <member ID> <points to add>`, we need to extract the member ID and the points to add using:
 
 ```js
-const [_add, _points, memberId, pointToAddText] = text.split(" ");
+const [_, memberId, pointToAddText] = text.split(" ");
 ```
 
 To add points, we need to take the current points and add the new points to it: `new points = current points + points to add`. Therefore, we need to find the member to update the points using the `getMemberById` function:
@@ -437,7 +473,7 @@ return replyToMerchant(event, `Added ${pointToAdd} points to member ID ${memberI
 2. In the `handleMessageEvent` function, add a condition to check if the message contains "Add points" (add points) and call the `handlePointIncrease` function created earlier:
 
 ```js
-if (text.includes("Add points")) {
+if (text.includes("add")) {
     return handlePointIncrease(event, text);
 }
 ```
@@ -448,20 +484,24 @@ The `handleMessageEvent` function will look something like this:
 function handleMessageEvent(event) {
   const text = event.message.text;
 
-  if (text === "Manage members") {
+  if (text === "manage") {
     const members = getAllMembers();
-    const memberInfoMessages = members.map((member) => `Member ID ${member.id} has ${member.points} points`);
+
+    if (!members || members.length === 0) 
+      return replyToMerchant(event, "You currently have no members");
+    const memberInfoMessages = members.map((member) => `Member number ${member.id} has ${member.points} points`);
 
     return replyToMerchant(event, ...memberInfoMessages);
   }
 
-  if (text.includes("Add points")) {
+  if (text.includes("add")) {
     return handlePointIncrease(event, text);
   }
 
   return replyToMerchant(
     event,
-    "Please type 'Manage members' to see member information or 'Add points <member ID> <points>' to add points to a member",
+    "Please type 'manage' to view member information or to add points to a member",
+    "or type 'add <Member ID> <Points>' to add points to a member",
   );
 }
 ```
@@ -533,42 +573,49 @@ function handleLineEvent(event) {
 function handleMessageEvent(event) {
   const text = event.message.text;
 
-  if (text === "Manage members") {
+  if (text === "manage") {
     const members = getAllMembers();
-    const memberInfoMessages = members.map((member) => `Member ID ${member.id} has ${member.points} points`);
+
+    if (!members || members.length === 0) 
+      return replyToMerchant(event, "You currently have no members");
+    const memberInfoMessages = members.map((member) => `Member number ${member.id} has ${member.points} points`);
 
     return replyToMerchant(event, ...memberInfoMessages);
   }
 
-  if (text.includes("Add points")) {
+  if (text.includes("add")) {
     return handlePointIncrease(event, text);
   }
 
   return replyToMerchant(
     event,
-    "Please type 'Manage members' to see member information or 'Add points <member ID> <points>' to add points to a member",
+    "Please type 'manage' to view member information or to add points to a member",
+    "or type 'add <Member ID> <Points>' to add points to a member",
   );
 }
 
 function handlePointIncrease(event, text) {
-  const [_add, _points, memberId, pointToAddText] = text.split(" ");
+  const [_, memberId, pointToAddText] = text.split(" ");
+
+  if (!memberId || !pointToAddText)
+    return replyToMerchant(event, "Invalid command. Add points with the command 'add <member ID> <points>'");
 
   const member = getMemberById(memberId);
 
   if (!member) {
-    return replyToMerchant(event, `Member ID ${memberId} not found`);
+    return replyToMerchant(event, `Member with ID ${memberId} not found`);
   }
 
   const pointToAdd = parseInt(pointToAddText);
 
   if (isNaN(pointToAdd)) {
-    return replyToMerchant(event, "Please enter a numeric value for the points to add");
+    return replyToMerchant(event, "Please enter the number of points to add as a number only");
   }
 
   updatePointForMember(memberId, member.points + pointToAdd);
   pushToMember(member.uid, `You have received ${pointToAdd} points`);
 
-  return replyToMerchant(event, `Added ${pointToAdd} points to member ID ${memberId}`);
+  return replyToMerchant(event, `Added ${pointToAdd} points to member with ID ${memberId}`);
 }
 
 /**
