@@ -48,10 +48,14 @@
 
 ```js
 function handleFollowEvent(event) {
-    const userId = event.source.userId;
+  const userId = event.source.userId;
 
-    insertMember(userId);
-    pushToMember(userId, "ยินดีต้อนรับเข้าสู่ สมาชิก Bot ครับ กรุณาพิมพ์ 'เช็คคะแนน' เพื่อเช็คคะแนนของคุณ");
+  const { id: memberId } = insertMember(userId);
+  pushToMember(
+    userId,
+    "ยินดีต้อนรับเข้าสู่ สมาชิก Bot ครับ กรุณาพิมพ์ 'ดูคะแนน' เพื่อเช็คคะแนนของคุณ",
+    `เลขสมาชิกของคุณคือ ${memberId}`
+  );
 }
 ```
 
@@ -74,7 +78,11 @@ insertMember(userId);
 เสร็จแล้วเราก็ส่งข้อความต้อนรับไปหาสมาชิกด้วยฟังก์ชัน `pushToMember` ได้เลย
 
 ```js
-pushToMember(userId, "ยินดีต้อนรับเข้าสู่ สมาชิก Bot ครับ กรุณาพิมพ์ 'เช็คคะแนน' เพื่อเช็คคะแนนของคุณ");
+  pushToMember(
+    userId,
+    "ยินดีต้อนรับเข้าสู่ สมาชิก Bot ครับ กรุณาพิมพ์ 'ดูคะแนน' เพื่อเช็คคะแนนของคุณ",
+    `เลขสมาชิกของคุณคือ ${memberId}`
+  );
 ```
 
 ---
@@ -159,7 +167,7 @@ function handleLineEvent(event) {
 
 ## Step 4: ทำให้สมาชิกสามารถเช็คคะแนนสะสมได้
 
-> เมื่อสมาชิกส่งคำว่า `เช็คคะแนน` ให้ส่งข้อความกลับไปหาสมาชิกว่า `คุณมีคะแนนสะสม XXX คะแนน`
+> เมื่อสมาชิกส่งคำว่า `ดูคะแนน` ให้ส่งข้อความกลับไปหาสมาชิกว่า `คุณมีคะแนนสะสม XXX คะแนน`
 
 1. ในไฟล์ `member.js` สร้างฟังก์ชัน `handleMessageEvent` ไว้ก่อนฟังก์ชัน `handleUnknownEvent` เพื่อเอาไว้จัดการ event ประเภท `message` ที่เราจะได้รับตอนมีคนส่งข้อความมาหาเรา
 
@@ -167,9 +175,19 @@ function handleLineEvent(event) {
 function handleMessageEvent(event) {
   const text = event.message.text;
 
-  if (text === "เช็คคะแนน") {
-    const member = getMemberByUid(event.source.userId);
+  if (text === "ดูคะแนน") {
+    const userId = event.source.userId;
+    const member = getMemberByUid(userId);
+
+    if (!member) {
+      return replyToMember(
+        event,
+        "ขออภัย ตอนนี้คุณยังไม่ได้เป็นสมาชิกร้านค้า กรุณา Block แล้ว Unblock บอทเพื่อเริ่มใหม่"
+      );
+    }
     return replyToMember(event, `คุณมีคะแนนสะสม ${member.points} คะแนน`);
+  } else {
+    return replyToMember(event, "ไม่เข้าใจคำสั่งจ้า");
   }
 }
 ```
@@ -177,17 +195,19 @@ function handleMessageEvent(event) {
 ---
 __คำอธิบาย__
 
-ในการที่เราจะเช็คว่าสมาชิกส่งคำว่า `เช็คคะแนน` มารึเปล่า เราจะใช้ข้อความ `text` ที่เราเอามาได้จาก `event.message.text`
+ในการที่เราจะเช็คว่าสมาชิกส่งคำว่า `ดูคะแนน` มารึเปล่า เราจะใช้ข้อความ `text` ที่เราเอามาได้จาก `event.message.text`
 
 ```js
 const text = event.message.text;
 ```
 
-พอได้ข้อความมาแล้ว เราก็เอามาเช็คว่ามันตรงกับคำว่า `เช็คคะแนน` มั้ย 
+พอได้ข้อความมาแล้ว เราก็เอามาเช็คว่ามันตรงกับคำว่า `ดูคะแนน` มั้ย 
 
 ```js
-if (text === "เช็คคะแนน") {
+if (text === "ดูคะแนน") {
     // some other code
+} else {
+    // unknown command
 }
 
 ```
@@ -253,8 +273,7 @@ const { replier, pusher } = require("./util");
 
 const memberConfig = {
   channelSecret: "MEMBER_CHANNEL_SECRET",
-  channelAccessToken:
-    "MEMBER_CHANNEL_ACCESS_TOKEN",
+  channelAccessToken: "MEMBER_CHANNEL_ACCESS_TOKEN",
 };
 
 
@@ -377,6 +396,9 @@ module.exports = {
 function handlePointIncrease(event, text) {
   const [_, memberId, pointToAddText] = text.split(" ");
 
+  if (!memberId || !pointToAddText)
+    return replyToMerchant(event, "คำสั่งไม่ถูกต้อง เพิ่มคะแนนด้วยคำสั่ง 'เพิ่มคะแนน <รหัสสมาชิก> <คะแนน>'");
+
   const member = getMemberById(memberId);
 
   if (!member) {
@@ -466,6 +488,9 @@ function handleMessageEvent(event) {
 
   if (text === "จัดการสมาชิก") {
     const members = getAllMembers();
+
+    if (!members || members.length === 0) 
+      return replyToMerchant(event, "ขณะนี้คุณไม่มีสมาชิก");
     const memberInfoMessages = members.map((member) => `สมาชิกหมายเลข ${member.id} มีคะแนน ${member.points} คะแนน`);
 
     return replyToMerchant(event, ...memberInfoMessages);
