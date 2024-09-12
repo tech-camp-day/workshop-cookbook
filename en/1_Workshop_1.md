@@ -10,9 +10,8 @@ In this workshop, we will create a fortuneteller bot by randomly selecting predi
 After forking, the project you see on the screen will become your own, and you can modify it as needed.
 
 3. Click the "Share" button in the top-right corner of the page.
-4. Click "Move out of Drafts."
-5. In "Change permissions," select "Unlisted" to make the project accessible.
-6. Click the square box in the top-left corner, then click "Restart Devbox."
+4. In "Change permissions," select "Unlisted" to make the project accessible.
+5. Click the square box in the top-left corner, then click "Restart Devbox."
 
 ## Step 1: Configure the Bot
 
