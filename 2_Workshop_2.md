@@ -257,6 +257,7 @@ const memberConfig = {
     "MEMBER_CHANNEL_ACCESS_TOKEN",
 };
 
+
 const memberWebhookMiddleware = line.middleware(memberConfig);
 const memberClient = new line.messagingApi.MessagingApiClient(memberConfig);
 const replyToMember = replier(memberClient);
@@ -302,8 +303,12 @@ function handleLineEvent(event) {
 function handleFollowEvent(event) {
   const userId = event.source.userId;
 
-  insertMember(userId);
-  pushToMember(userId, "ยินดีต้อนรับเข้าสู่ สมาชิก Bot ครับ กรุณาพิมพ์ 'เช็คคะแนน' เพื่อเช็คคะแนนของคุณ");
+  const { id: memberId } = insertMember(userId);
+  pushToMember(
+    userId,
+    "ยินดีต้อนรับเข้าสู่ สมาชิก Bot ครับ กรุณาพิมพ์ 'ดูคะแนน' เพื่อเช็คคะแนนของคุณ",
+    `เลขสมาชิกของคุณคือ ${memberId}`
+  );
 }
 
 function handleUnfollowEvent(event) {
@@ -315,10 +320,19 @@ function handleUnfollowEvent(event) {
 function handleMessageEvent(event) {
   const text = event.message.text;
 
-  if (text === "เช็คคะแนน") {
+  if (text === "ดูคะแนน") {
     const userId = event.source.userId;
     const member = getMemberByUid(userId);
+
+    if (!member) {
+      return replyToMember(
+        event,
+        "ขออภัย ตอนนี้คุณยังไม่ได้เป็นสมาชิกร้านค้า กรุณา Block แล้ว Unblock บอทเพื่อเริ่มใหม่"
+      );
+    }
     return replyToMember(event, `คุณมีคะแนนสะสม ${member.points} คะแนน`);
+  } else {
+    return replyToMember(event, "ไม่เข้าใจคำสั่งจ้า");
   }
 }
 
@@ -330,7 +344,6 @@ module.exports = {
   router,
   pushToMember,
 };
-
 ```
 
 </details>
@@ -539,6 +552,9 @@ function handleMessageEvent(event) {
 
   if (text === "จัดการสมาชิก") {
     const members = getAllMembers();
+
+    if (!members || members.length === 0) 
+      return replyToMerchant(event, "ขณะนี้คุณไม่มีสมาชิก");
     const memberInfoMessages = members.map((member) => `สมาชิกหมายเลข ${member.id} มีคะแนน ${member.points} คะแนน`);
 
     return replyToMerchant(event, ...memberInfoMessages);
@@ -557,6 +573,9 @@ function handleMessageEvent(event) {
 
 function handlePointIncrease(event, text) {
   const [_, memberId, pointToAddText] = text.split(" ");
+
+  if (!memberId || !pointToAddText)
+    return replyToMerchant(event, "คำสั่งไม่ถูกต้อง เพิ่มคะแนนด้วยคำสั่ง 'เพิ่มคะแนน <รหัสสมาชิก> <คะแนน>'");
 
   const member = getMemberById(memberId);
 
@@ -585,7 +604,6 @@ function handleUnknownEvent(event) {
 }
 
 module.exports = router;
-
 ```
 
 </details>
